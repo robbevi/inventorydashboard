@@ -3,19 +3,16 @@
 <head> 
 <meta charset="UTF-8"> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
-<title>Calfrac – Inventory Reduction Countdown</title> 
+<title>Calfrac Inventory Reduction Countdown</title> 
 <style> 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0} 
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f7fa;color:#1a2332;min-height:100vh;overflow-x:hidden} 
- 
 .header{background:#fff;text-align:center;padding:22px 20px 14px;border-bottom:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.04)} 
 .header .brand{font-size:12px;text-transform:uppercase;letter-spacing:5px;color:#2563eb;font-weight:700;margin-bottom:3px} 
 .header h1{font-size:clamp(20px,3vw,30px);font-weight:700;color:#1a2332} 
 .header .subtitle{font-size:clamp(12px,1.5vw,15px);color:#6b7a8d;margin-top:2px} 
 .header .live-clock{font-size:12px;color:#94a3b8;margin-top:5px;font-variant-numeric:tabular-nums} 
- 
 .container{max-width:1360px;margin:0 auto;padding:14px 20px 30px} 
- 
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;margin-top:12px} 
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:transform .15s,box-shadow .15s} 
 .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)} 
@@ -23,24 +20,20 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f7fa;
 .card .card-value{font-size:clamp(17px,2.3vw,26px);font-weight:700;font-variant-numeric:tabular-nums} 
 .card .card-sub{font-size:11px;color:#94a3b8;margin-top:3px} 
 .green{color:#059669}.red{color:#dc2626}.blue{color:#2563eb}.dark{color:#1a2332}.amber{color:#d97706} 
- 
 .ring-wrapper{display:flex;justify-content:center;margin:4px 0 2px} 
 svg.ring{width:70px;height:70px} 
 .ring-bg{fill:none;stroke:#e5e7eb;stroke-width:6} 
 .ring-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .8s ease,stroke .4s} 
- 
 .countdown-section{text-align:center;padding:16px 0 8px} 
 .countdown-label{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#6b7a8d;font-weight:600;margin-bottom:8px} 
 .countdown-boxes{display:flex;justify-content:center;gap:10px;flex-wrap:wrap} 
 .cd-box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 18px;min-width:88px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)} 
 .cd-box .num{font-size:clamp(26px,4vw,42px);font-weight:700;color:#1a2332;font-variant-numeric:tabular-nums;line-height:1.1} 
 .cd-box .lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#94a3b8;margin-top:2px;font-weight:600} 
- 
 .year-progress{margin:12px auto 0;max-width:640px} 
 .year-progress .bar-bg{height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden} 
 .year-progress .bar-fill{height:100%;background:linear-gradient(90deg,#2563eb,#059669);border-radius:4px;transition:width 1s ease} 
 .year-progress .bar-label{font-size:11px;color:#94a3b8;margin-top:3px;text-align:center} 
- 
 .pace-section{text-align:center;margin:18px 0 10px} 
 .pace-badge{display:inline-block;padding:10px 36px;border-radius:30px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;transition:all .3s} 
 .pace-detail-box{max-width:600px;margin:10px auto 0;padding:14px 20px;border-radius:12px;text-align:center} 
@@ -52,14 +45,8 @@ svg.ring{width:70px;height:70px}
 .pace-detail-behind{background:#fef2f2;border:1px solid #fecaca;border-radius:12px} 
 .pace-detail-ahead{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px} 
 .pace-detail-on{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px} 
-@keyframes pulseRed{ 
-  0%,100%{box-shadow:0 0 24px rgba(220,38,38,.2)} 
-  50%{box-shadow:0 0 40px rgba(220,38,38,.45),0 0 60px rgba(220,38,38,.15)} 
-} 
- 
+@keyframes pulseRed{0%,100%{box-shadow:0 0 24px rgba(220,38,38,.2)}50%{box-shadow:0 0 40px rgba(220,38,38,.45),0 0 60px rgba(220,38,38,.15)}} 
 .section-title{font-size:12px;text-transform:uppercase;letter-spacing:3px;color:#2563eb;font-weight:700;margin:20px 0 6px;padding-bottom:5px;border-bottom:2px solid #e5e7eb} 
- 
-/* ── District cards with aligned $ amounts ── */ 
 .districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:10px} 
 .dist-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)} 
 .dist-name{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:8px;display:block} 
@@ -71,10 +58,18 @@ svg.ring{width:70px;height:70px}
 .dist-pct{text-align:right;font-size:11px;font-weight:700;margin-top:3px} 
 .dist-trend{margin-top:10px;border-top:1px solid #f1f5f9;padding-top:8px} 
 .dist-trend .trend-title{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;font-weight:600;margin-bottom:4px} 
+.trend-hdr{display:flex;align-items:baseline;font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;font-weight:700;padding:0 0 3px;border-bottom:1px solid #f1f5f9;margin-bottom:2px} 
+.trend-hdr span:first-child{flex:1;text-align:left} 
+.trend-hdr .th-val{min-width:120px;text-align:right;display:inline-block} 
+.trend-hdr .th-chg{min-width:105px;text-align:right;display:inline-block} 
 .trend-row{display:flex;align-items:baseline;font-size:11px;color:#6b7a8d;padding:2px 0} 
 .trend-row span:first-child{flex:1;text-align:left} 
 .trend-row .trend-val{font-weight:600;font-variant-numeric:tabular-nums;color:#1a2332;min-width:120px;text-align:right;display:inline-block} 
 .trend-row .trend-chg{font-weight:600;font-variant-numeric:tabular-nums;font-size:10px;min-width:105px;text-align:right;display:inline-block} 
+.trend-total{display:flex;align-items:baseline;font-size:11px;padding:4px 0 0;margin-top:3px;border-top:1px solid #e5e7eb;font-weight:700} 
+.trend-total span:first-child{flex:1;text-align:left;color:#1a2332} 
+.trend-total .trend-val{font-variant-numeric:tabular-nums;min-width:120px;text-align:right;display:inline-block} 
+.trend-total .trend-chg{font-variant-numeric:tabular-nums;font-size:10px;min-width:105px;text-align:right;display:inline-block} 
 .dist-input-area{margin-top:10px;display:flex;gap:6px;align-items:flex-end} 
 .dist-input-area label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;font-weight:600;display:block;margin-bottom:2px} 
 .dist-input-area input{background:#f8fafc;border:1px solid #e5e7eb;border-radius:6px;padding:6px 10px;font-size:13px;color:#1a2332;width:100%;text-align:right;outline:none;font-variant-numeric:tabular-nums;transition:border-color .2s} 
@@ -82,13 +77,11 @@ svg.ring{width:70px;height:70px}
 .dist-input-wrap{flex:1} 
 .dist-btn{background:#2563eb;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s;white-space:nowrap} 
 .dist-btn:hover{opacity:.85} 
- 
 .rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:10px} 
 .rate-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)} 
 .rate-card .rate-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#6b7a8d;margin-bottom:4px;font-weight:600} 
 .rate-card .rate-value{font-size:clamp(15px,2vw,22px);font-weight:700;color:#d97706;font-variant-numeric:tabular-nums} 
 .rate-card .rate-sub{font-size:10px;color:#94a3b8;margin-top:2px} 
- 
 .history-section{margin-top:10px} 
 .history-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px} 
 .btn-clear{background:transparent;color:#dc2626;border:2px solid #dc2626;border-radius:8px;padding:6px 16px;font-size:12px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .15s} 
@@ -100,62 +93,25 @@ table.history tr:hover td{background:#f8fafc}
 .tbl-green{color:#059669;font-weight:600}.tbl-red{color:#dc2626;font-weight:600} 
 .btn-del{background:none;border:none;color:#dc2626;font-size:14px;cursor:pointer;padding:2px 6px;border-radius:4px;transition:background .15s} 
 .btn-del:hover{background:#fef2f2} 
- 
 .footer{text-align:center;padding:16px;font-size:10px;color:#94a3b8;margin-top:20px;letter-spacing:1px} 
 </style> 
 </head> 
 <body> 
- 
 <div class="header"> 
   <div class="brand">Calfrac Well Services</div> 
   <h1>Inventory Reduction Countdown</h1> 
   <div class="subtitle">2026 Goal&ensp;&middot;&ensp;$4.8M Reduction&ensp;&middot;&ensp;$16.50M &rarr; $11.70M</div> 
   <div class="live-clock" id="liveClock"></div> 
 </div> 
- 
 <div class="container"> 
- 
   <div class="cards"> 
-    <div class="card"> 
-      <div class="card-label">Starting Inventory</div> 
-      <div class="card-value dark" id="metricStart">$16,500,300</div> 
-      <div class="card-sub">Jan 1, 2026 Baseline</div> 
-    </div> 
-    <div class="card"> 
-      <div class="card-label">Current Inventory</div> 
-      <div class="card-value blue" id="metricCurrent">--</div> 
-      <div class="card-sub" id="metricCurrentSub">Sum of 4 districts</div> 
-    </div> 
-    <div class="card"> 
-      <div class="card-label">Reduction Achieved</div> 
-      <div class="card-value" id="metricReduction">--</div> 
-      <div class="card-sub" id="metricReductionSub"></div> 
-    </div> 
-    <div class="card"> 
-      <div class="card-label">Remaining to Save</div> 
-      <div class="card-value amber" id="metricRemaining">--</div> 
-      <div class="card-sub" id="metricRemainingSub">of $4,800,000 goal</div> 
-    </div> 
-    <div class="card"> 
-      <div class="card-label">Goal Achieved</div> 
-      <div class="ring-wrapper"> 
-        <svg class="ring" viewBox="0 0 36 36"> 
-          <circle class="ring-bg" cx="18" cy="18" r="14.5"></circle> 
-          <circle class="ring-fill" id="ringFill" cx="18" cy="18" r="14.5" 
-                  stroke="#2563eb" stroke-dasharray="91.1" stroke-dashoffset="91.1" 
-                  transform="rotate(-90 18 18)"></circle> 
-          <text x="18" y="20.5" text-anchor="middle" fill="#1a2332" font-size="8" font-weight="700" id="ringText">0%</text> 
-        </svg> 
-      </div> 
-      <div class="card-sub" id="metricGoalSub"></div> 
-    </div> 
-    <div class="card"> 
-      <div class="card-label">Savings per District</div> 
-      <div class="card-value amber" id="metricPerDistrict">--</div> 
-      <div class="card-sub">per district per month</div> 
-    </div> 
+    <div class="card"><div class="card-label">Starting Inventory</div><div class="card-value dark" id="metricStart">$16,500,300</div><div class="card-sub">Jan 1, 2026 Baseline</div></div> 
+    <div class="card"><div class="card-label">Current Inventory</div><div class="card-value blue" id="metricCurrent">--</div><div class="card-sub" id="metricCurrentSub">Sum of 4 districts</div></div> 
+    <div class="card"><div class="card-label">Reduction Achieved</div><div class="card-value" id="metricReduction">--</div><div class="card-sub" id="metricReductionSub"></div></div> 
+    <div class="card"><div class="card-label">Remaining to Save</div><div class="card-value amber" id="metricRemaining">--</div><div class="card-sub" id="metricRemainingSub">of $4,800,000 goal</div></div> 
+    <div class="card"><div class="card-label">Goal Achieved</div><div class="ring-wrapper"><svg class="ring" viewBox="0 0 36 36"><circle class="ring-bg" cx="18" cy="18" r="14.5"></circle><circle class="ring-fill" id="ringFill" cx="18" cy="18" r="14.5" stroke="#2563eb" stroke-dasharray="91.1" stroke-dashoffset="91.1" transform="rotate(-90 18 18)"></circle><text x="18" y="20.5" text-anchor="middle" fill="#1a2332" font-size="8" font-weight="700" id="ringText">0%</text></svg></div><div class="card-sub" id="metricGoalSub"></div></div> 
+    <div class="card"><div class="card-label">Savings per District</div><div class="card-value amber" id="metricPerDistrict">--</div><div class="card-sub">per district per month</div></div> 
   </div> 
- 
   <div class="countdown-section"> 
     <div class="countdown-label">Time Remaining in 2026</div> 
     <div class="countdown-boxes"> 
@@ -164,12 +120,8 @@ table.history tr:hover td{background:#f8fafc}
       <div class="cd-box"><div class="num" id="cdMins">--</div><div class="lbl">Minutes</div></div> 
       <div class="cd-box"><div class="num" id="cdSecs">--</div><div class="lbl">Seconds</div></div> 
     </div> 
-    <div class="year-progress"> 
-      <div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div> 
-      <div class="bar-label" id="yearLabel">0% of year elapsed</div> 
-    </div> 
+    <div class="year-progress"><div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div><div class="bar-label" id="yearLabel">0% of year elapsed</div></div> 
   </div> 
- 
   <div class="pace-section"> 
     <div class="pace-badge" id="paceBadge">Calculating&hellip;</div> 
     <div class="pace-detail-box" id="paceBox"> 
@@ -179,10 +131,8 @@ table.history tr:hover td{background:#f8fafc}
       <div class="pace-accel" id="paceAccel"></div> 
     </div> 
   </div> 
- 
   <div class="section-title">Savings by District</div> 
   <div class="districts" id="districtContainer"></div> 
- 
   <div class="section-title">Required Savings Rate (to hit goal)</div> 
   <div class="rates"> 
     <div class="rate-card"><div class="rate-label">Per Month</div><div class="rate-value" id="rateMonth">--</div><div class="rate-sub" id="rateMonthSub"></div></div> 
@@ -190,7 +140,6 @@ table.history tr:hover td{background:#f8fafc}
     <div class="rate-card"><div class="rate-label">Per Day</div><div class="rate-value" id="rateDay">--</div><div class="rate-sub" id="rateDaySub"></div></div> 
     <div class="rate-card"><div class="rate-label">Per Hour</div><div class="rate-value" id="rateHour">--</div><div class="rate-sub" id="rateHourSub"></div></div> 
   </div> 
- 
   <div class="history-section"> 
     <div class="history-header"> 
       <div class="section-title" style="margin:0;flex:1">Update History</div> 
@@ -201,42 +150,28 @@ table.history tr:hover td{background:#f8fafc}
       <tbody id="historyBody"></tbody> 
     </table> 
   </div> 
- 
 </div> 
 <div class="footer">CALFRAC WELL SERVICES&ensp;&middot;&ensp;PARTS & INVENTORY OPERATIONS DASHBOARD&ensp;&middot;&ensp;2026</div> 
- 
 <script> 
 (function(){ 
-  var START = new Date('2026-01-01T00:00:00'); 
-  var END   = new Date('2026-12-31T23:59:59'); 
-  var TOTAL_BASELINE = 16500300; 
-  var GOAL  = 4800000; 
-  var CIRC  = 2 * Math.PI * 14.5; 
-  var YEAR_MS = END - START; 
- 
-  var DISTRICTS = [ 
-    { key:'denver', name:'Denver', baseline:260407.52, 
-      trend:[260407.52,111188.69,169126.05,147950.53,141073.65] }, 
-    { key:'smithfield', name:'Smithfield', baseline:2155184.70, 
-      trend:[2155184.70,2076983.72,2251767.83,2202312.54,2261320.01] }, 
-    { key:'williston', name:'Williston', baseline:7511668.38, 
-      trend:[7511668.38,7650935.50,7659903.37,7513243.93,7661871.45] }, 
-    { key:'junction', name:'Grand Junction', baseline:6104008.76, 
-      trend:[6104008.76,6062567.28,6405503.43,5972017.52,5814511.11] } 
+  var START=new Date('2026-01-01T00:00:00'),END=new Date('2026-12-31T23:59:59'); 
+  var TOTAL_BASELINE=16500300,GOAL=4800000,CIRC=2*Math.PI*14.5,YEAR_MS=END-START; 
+  var DISTRICTS=[ 
+    {key:'denver',name:'Denver',baseline:260407.52,trend:[260407.52,111188.69,169126.05,147950.53,141073.65]}, 
+    {key:'smithfield',name:'Smithfield',baseline:2155184.70,trend:[2155184.70,2076983.72,2251767.83,2202312.54,2261320.01]}, 
+    {key:'williston',name:'Williston',baseline:7511668.38,trend:[7511668.38,7650935.50,7659903.37,7513243.93,7661871.45]}, 
+    {key:'junction',name:'Grand Junction',baseline:6104008.76,trend:[6104008.76,6062567.28,6405503.43,5972017.52,5814511.11]} 
   ]; 
-  var MONTHS = ["Baseline","Jan '26","Feb '26","Mar '26","Apr '26"]; 
- 
+  var MONTHS=["Baseline","Jan '26","Feb '26","Mar '26","Apr '26"]; 
   var $=function(id){return document.getElementById(id)}; 
   var fmt=function(n){var neg=n<0;return(neg?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US')}; 
   var pad=function(n){return String(n).padStart(2,'0')}; 
- 
   function getDistCurrent(key,fb){var v=localStorage.getItem('cf_dist_'+key);return v!==null?parseFloat(v):fb} 
   function setDistCurrent(key,val){localStorage.setItem('cf_dist_'+key,val)} 
   function getHistory(){try{return JSON.parse(localStorage.getItem('cf_dist_history'))||[]}catch(e){return[]}} 
   function setHistory(h){localStorage.setItem('cf_dist_history',JSON.stringify(h))} 
   function addHistoryEntry(dist,val){var h=getHistory();h.push({date:new Date().toISOString(),district:dist,value:val});setHistory(h)} 
   function getTotalCurrent(){return DISTRICTS.reduce(function(s,d){return s+getDistCurrent(d.key,d.trend[d.trend.length-1])},0)} 
- 
   window.clearHistory=function(){ 
     if(confirm('Are you sure?\n\nThis will clear all history AND revert district values to their original inputs.\n\nThis cannot be undone.')){ 
       localStorage.removeItem('cf_dist_history'); 
@@ -244,24 +179,14 @@ table.history tr:hover td{background:#f8fafc}
       localStorage.removeItem('cf_dist_smithfield'); 
       localStorage.removeItem('cf_dist_williston'); 
       localStorage.removeItem('cf_dist_junction'); 
-      buildDistricts(); 
-      renderHistory(); 
-      refresh(); 
+      buildDistricts();renderHistory();refresh(); 
     } 
   }; 
- 
   window.deleteEntry=function(idx){ 
-    if(confirm('Delete this entry?')){ 
-      var h=getHistory(); 
-      h.splice(idx,1); 
-      setHistory(h); 
-      renderHistory(); 
-    } 
+    if(confirm('Delete this entry?')){var h=getHistory();h.splice(idx,1);setHistory(h);renderHistory();} 
   }; 
- 
   function buildDistricts(){ 
-    var wrap=$('districtContainer'); 
-    wrap.innerHTML=''; 
+    var wrap=$('districtContainer');wrap.innerHTML=''; 
     DISTRICTS.forEach(function(d,i){ 
       var cur=getDistCurrent(d.key,d.trend[d.trend.length-1]); 
       var red=d.baseline-cur; 
@@ -270,8 +195,7 @@ table.history tr:hover td{background:#f8fafc}
       var pc=Math.max(0,Math.min(100,pct)); 
       var barCol=pct>=100?'#059669':pct>=50?'#2563eb':red>0?'#d97706':'#dc2626'; 
       var pctCol=pct>=100?'green':pct>=50?'blue':red>0?'amber':'red'; 
- 
-      var trendHTML=''; 
+      var trendHTML='<div class="trend-hdr"><span>Month</span><span class="th-val">Value</span><span class="th-chg">MoM Savings</span></div>'; 
       for(var m=0;m<MONTHS.length;m++){ 
         var v=d.trend[m]; 
         var chg=m>0?(d.trend[m-1]-v):0; 
@@ -279,11 +203,11 @@ table.history tr:hover td{background:#f8fafc}
         var chgTxt=m===0?'\u2014':(chg>=0?'+':'')+fmt(chg); 
         trendHTML+='<div class="trend-row"><span>'+MONTHS[m]+'</span><span class="trend-val">'+fmt(v)+'</span><span class="trend-chg '+chgCls+'">'+chgTxt+'</span></div>'; 
       } 
- 
-      var card=document.createElement('div'); 
-      card.className='dist-card'; 
-      card.innerHTML= 
-        '<span class="dist-name">'+d.name+'</span>' 
+      var totalRed=d.baseline-d.trend[d.trend.length-1]; 
+      var totCls=totalRed>=0?'tbl-green':'tbl-red'; 
+      trendHTML+='<div class="trend-total"><span>vs Baseline</span><span class="trend-val">'+fmt(d.trend[d.trend.length-1])+'</span><span class="trend-chg '+totCls+'">'+(totalRed>=0?'+':'')+fmt(totalRed)+'</span></div>'; 
+      var card=document.createElement('div');card.className='dist-card'; 
+      card.innerHTML='<span class="dist-name">'+d.name+'</span>' 
         +'<div class="dist-row"><span>Baseline (Jan 1, \'26)</span><span class="val">'+fmt(d.baseline)+'</span></div>' 
         +'<div class="dist-row"><span>Current</span><span class="val">'+fmt(cur)+'</span></div>' 
         +'<div class="dist-row"><span>Reduction</span><span class="val '+(red>=0?'green':'red')+'">'+fmt(red)+'</span></div>' 
@@ -291,69 +215,42 @@ table.history tr:hover td{background:#f8fafc}
         +'<div class="dist-bar-bg"><div class="dist-bar-fill" style="width:'+pc+'%;background:'+barCol+';"></div></div>' 
         +'<div class="dist-pct '+pctCol+'">'+pct.toFixed(1)+'% of goal</div>' 
         +'<div class="dist-trend"><div class="trend-title">Monthly Trend</div>'+trendHTML+'</div>' 
-        +'<div class="dist-input-area">' 
-        +'<div class="dist-input-wrap"><label>Update Current Value</label><input type="text" id="dinp'+i+'" value="'+fmt(cur)+'"></div>' 
-        +'<button class="dist-btn" onclick="saveDist('+i+')">Save</button>' 
-        +'</div>'; 
+        +'<div class="dist-input-area"><div class="dist-input-wrap"><label>Update Current Value</label><input type="text" id="dinp'+i+'" value="'+fmt(cur)+'"></div>' 
+        +'<button class="dist-btn" onclick="saveDist('+i+')">Save</button></div>'; 
       wrap.appendChild(card); 
- 
-      document.getElementById('dinp'+i).addEventListener('input',function(){ 
-        var raw=this.value.replace(/[^0-9]/g,''); 
-        if(raw)this.value='$'+parseInt(raw).toLocaleString('en-US'); 
-      }); 
+      document.getElementById('dinp'+i).addEventListener('input',function(){var raw=this.value.replace(/[^0-9]/g,'');if(raw)this.value='$'+parseInt(raw).toLocaleString('en-US');}); 
     }); 
   } 
- 
   window.saveDist=function(i){ 
-    var inp=document.getElementById('dinp'+i); 
-    var raw=inp.value.replace(/[^0-9.]/g,''); 
+    var inp=document.getElementById('dinp'+i);var raw=inp.value.replace(/[^0-9.]/g,''); 
     if(!raw||isNaN(parseFloat(raw))){alert('Enter a valid dollar amount.');return} 
-    var val=parseFloat(raw); 
-    setDistCurrent(DISTRICTS[i].key,val); 
-    addHistoryEntry(DISTRICTS[i].name,val); 
-    buildDistricts(); 
-    renderHistory(); 
-    refresh(); 
+    var val=parseFloat(raw);setDistCurrent(DISTRICTS[i].key,val);addHistoryEntry(DISTRICTS[i].name,val); 
+    buildDistricts();renderHistory();refresh(); 
   }; 
- 
   function renderHistory(){ 
-    var hist=getHistory(); 
-    var body=$('historyBody'); 
-    body.innerHTML=''; 
+    var hist=getHistory();var body=$('historyBody');body.innerHTML=''; 
     for(var i=hist.length-1;i>=0;i--){ 
-      var h=hist[i]; 
-      var d=new Date(h.date); 
+      var h=hist[i];var d=new Date(h.date); 
       var ds=d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}); 
       var dist=DISTRICTS.find(function(x){return x.name===h.district}); 
-      var red=dist?(dist.baseline-h.value):0; 
-      var cls=red>=0?'tbl-green':'tbl-red'; 
+      var red=dist?(dist.baseline-h.value):0;var cls=red>=0?'tbl-green':'tbl-red'; 
       var isLast=(i===hist.length-1); 
       var delBtn=isLast?'<button class="btn-del" onclick="deleteEntry('+i+')" title="Delete this entry">\u2715</button>':''; 
       body.innerHTML+='<tr><td>'+ds+'</td><td>'+h.district+'</td><td>'+fmt(h.value)+'</td><td class="'+cls+'">'+fmt(red)+'</td><td>'+delBtn+'</td></tr>'; 
     } 
-    if(!hist.length){ 
-      body.innerHTML='<tr><td colspan="5" style="color:#94a3b8;text-align:center;padding:14px;">No manual updates yet \u2014 update district values above.</td></tr>'; 
-    } 
+    if(!hist.length){body.innerHTML='<tr><td colspan="5" style="color:#94a3b8;text-align:center;padding:14px;">No manual updates yet \u2014 update district values above.</td></tr>';} 
   } 
- 
   function refresh(){ 
-    var now=new Date(); 
-    var current=getTotalCurrent(); 
-    var reduction=TOTAL_BASELINE-current; 
-    var remaining=Math.max(0,GOAL-reduction); 
-    var pctGoal=(reduction/GOAL)*100; 
- 
-    var msLeft=Math.max(0,END-now); 
-    var ts=Math.floor(msLeft/1000); 
+    var now=new Date();var current=getTotalCurrent(); 
+    var reduction=TOTAL_BASELINE-current;var remaining=Math.max(0,GOAL-reduction);var pctGoal=(reduction/GOAL)*100; 
+    var msLeft=Math.max(0,END-now);var ts=Math.floor(msLeft/1000); 
     $('cdDays').textContent=Math.floor(ts/86400); 
     $('cdHours').textContent=pad(Math.floor((ts%86400)/3600)); 
     $('cdMins').textContent=pad(Math.floor((ts%3600)/60)); 
     $('cdSecs').textContent=pad(ts%60); 
- 
     var elapsed=Math.max(0,Math.min(1,(now-START)/YEAR_MS)); 
     $('yearBar').style.width=(elapsed*100).toFixed(2)+'%'; 
     $('yearLabel').textContent=(elapsed*100).toFixed(1)+'% of year elapsed'; 
- 
     $('metricStart').textContent=fmt(TOTAL_BASELINE); 
     $('metricCurrent').textContent=fmt(current); 
     $('metricReduction').textContent=fmt(reduction); 
@@ -361,82 +258,27 @@ table.history tr:hover td{background:#f8fafc}
     $('metricReductionSub').textContent=reduction>0?'\u2193 from baseline':reduction<0?'\u2191 inventory increased':'No change'; 
     $('metricRemaining').textContent=fmt(remaining); 
     $('metricRemainingSub').textContent=remaining<=0?'\uD83C\uDF89 Goal reached!':'of '+fmt(GOAL)+' goal'; 
- 
     var pc=Math.max(0,Math.min(100,pctGoal)); 
     $('ringFill').style.strokeDashoffset=CIRC-(CIRC*pc/100); 
     $('ringFill').setAttribute('stroke',pctGoal>=100?'#059669':pctGoal>=50?'#2563eb':'#d97706'); 
     $('ringText').textContent=pctGoal.toFixed(1)+'%'; 
     $('metricGoalSub').textContent=fmt(reduction)+' of '+fmt(GOAL); 
- 
-    var expRed=GOAL*elapsed; 
-    var diff=reduction-expRed; 
-    var badge=$('paceBadge'); 
-    var box=$('paceBox'); 
-    var elExp=$('paceExpected'); 
-    var elAct=$('paceActual'); 
-    var elDelta=$('paceDelta'); 
-    var elAccel=$('paceAccel'); 
- 
-    if(now<START){ 
-      badge.className='pace-badge pace-on';badge.textContent='Starting Soon'; 
-      box.className='pace-detail-box pace-detail-on'; 
-      elExp.textContent='';elAct.textContent='Countdown begins January 1, 2026';elDelta.textContent='';elAccel.textContent=''; 
-    } else if(now>END){ 
-      var w=reduction>=GOAL; 
-      badge.className='pace-badge '+(w?'pace-ahead':'pace-behind'); 
-      badge.textContent=w?'\uD83C\uDF89 GOAL ACHIEVED!':'GOAL PERIOD COMPLETE'; 
-      box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind'); 
-      elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction); 
-      elDelta.textContent='';elAccel.textContent=''; 
-    } else if(Math.abs(diff)<GOAL*0.02){ 
-      badge.className='pace-badge pace-on';badge.textContent='\u25CF ON PACE'; 
-      box.className='pace-detail-box pace-detail-on'; 
-      elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>'; 
-      elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>'; 
-      elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb'; 
-      elAccel.textContent=''; 
-    } else if(diff>0){ 
-      badge.className='pace-badge pace-ahead';badge.textContent='\u2705 AHEAD OF PACE'; 
-      box.className='pace-detail-box pace-detail-ahead'; 
-      elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>'; 
-      elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>'; 
-      elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">\u25B2 '+fmt(diff)+' AHEAD</span>'; 
-      var monthsAhead=diff/(GOAL/12); 
-      elAccel.textContent='~'+monthsAhead.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669'; 
-    } else { 
-      badge.className='pace-badge pace-behind';badge.textContent='\uD83D\uDEA8 BEHIND PACE'; 
-      box.className='pace-detail-box pace-detail-behind'; 
-      elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>'; 
-      elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>'; 
-      elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">\u25BC '+fmt(Math.abs(diff))+' BEHIND</span>'; 
-      var monthsBehind=Math.abs(diff)/(GOAL/12); 
-      var accelPct=expRed>0?((Math.abs(diff)/expRed)*100):0; 
-      elAccel.innerHTML='~'+monthsBehind.toFixed(1)+' months behind schedule&ensp;\u00B7&ensp;Must accelerate by '+accelPct.toFixed(0)+'%'; 
-      elAccel.style.color='#dc2626'; 
-    } 
- 
-    var daysLeft=Math.max(0.001,msLeft/86400000); 
-    var hoursLeft=daysLeft*24; 
-    var weeksLeft=daysLeft/7; 
-    var monthsLeft=daysLeft/30.44; 
-    $('rateMonth').textContent=fmt(remaining/monthsLeft); 
-    $('rateMonthSub').textContent=monthsLeft.toFixed(1)+' months left'; 
-    $('rateWeek').textContent=fmt(remaining/weeksLeft); 
-    $('rateWeekSub').textContent=weeksLeft.toFixed(1)+' weeks left'; 
-    $('rateDay').textContent=fmt(remaining/daysLeft); 
-    $('rateDaySub').textContent=Math.ceil(daysLeft)+' days left'; 
-    $('rateHour').textContent=fmt(remaining/hoursLeft); 
-    $('rateHourSub').textContent=Math.round(hoursLeft).toLocaleString()+' hours left'; 
- 
+    var expRed=GOAL*elapsed;var diff=reduction-expRed; 
+    var badge=$('paceBadge'),box=$('paceBox'),elExp=$('paceExpected'),elAct=$('paceActual'),elDelta=$('paceDelta'),elAccel=$('paceAccel'); 
+    if(now<START){badge.className='pace-badge pace-on';badge.textContent='Starting Soon';box.className='pace-detail-box pace-detail-on';elExp.textContent='';elAct.textContent='Countdown begins January 1, 2026';elDelta.textContent='';elAccel.textContent='';} 
+    else if(now>END){var w=reduction>=GOAL;badge.className='pace-badge '+(w?'pace-ahead':'pace-behind');badge.textContent=w?'\uD83C\uDF89 GOAL ACHIEVED!':'GOAL PERIOD COMPLETE';box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind');elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction);elDelta.textContent='';elAccel.textContent='';} 
+    else if(Math.abs(diff)<GOAL*0.02){badge.className='pace-badge pace-on';badge.textContent='\u25CF ON PACE';box.className='pace-detail-box pace-detail-on';elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>';elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>';elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb';elAccel.textContent='';} 
+    else if(diff>0){badge.className='pace-badge pace-ahead';badge.textContent='\u2705 AHEAD OF PACE';box.className='pace-detail-box pace-detail-ahead';elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">\u25B2 '+fmt(diff)+' AHEAD</span>';var monthsAhead=diff/(GOAL/12);elAccel.textContent='~'+monthsAhead.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669';} 
+    else{badge.className='pace-badge pace-behind';badge.textContent='\uD83D\uDEA8 BEHIND PACE';box.className='pace-detail-box pace-detail-behind';elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">\u25BC '+fmt(Math.abs(diff))+' BEHIND</span>';var monthsBehind=Math.abs(diff)/(GOAL/12);var accelPct=expRed>0?((Math.abs(diff)/expRed)*100):0;elAccel.innerHTML='~'+monthsBehind.toFixed(1)+' months behind schedule&ensp;\u00B7&ensp;Must accelerate by '+accelPct.toFixed(0)+'%';elAccel.style.color='#dc2626';} 
+    var daysLeft=Math.max(0.001,msLeft/86400000);var hoursLeft=daysLeft*24;var weeksLeft=daysLeft/7;var monthsLeft=daysLeft/30.44; 
+    $('rateMonth').textContent=fmt(remaining/monthsLeft);$('rateMonthSub').textContent=monthsLeft.toFixed(1)+' months left'; 
+    $('rateWeek').textContent=fmt(remaining/weeksLeft);$('rateWeekSub').textContent=weeksLeft.toFixed(1)+' weeks left'; 
+    $('rateDay').textContent=fmt(remaining/daysLeft);$('rateDaySub').textContent=Math.ceil(daysLeft)+' days left'; 
+    $('rateHour').textContent=fmt(remaining/hoursLeft);$('rateHourSub').textContent=Math.round(hoursLeft).toLocaleString()+' hours left'; 
     $('metricPerDistrict').textContent=fmt((remaining/monthsLeft)/4); 
- 
     $('liveClock').textContent=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'  \u00B7  '+now.toLocaleTimeString('en-US'); 
   } 
- 
-  buildDistricts(); 
-  renderHistory(); 
-  refresh(); 
-  setInterval(refresh,1000); 
+  buildDistricts();renderHistory();refresh();setInterval(refresh,1000); 
 })(); 
 </script> 
 </body> 
