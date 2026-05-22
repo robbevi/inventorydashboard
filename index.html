@@ -1,3 +1,11 @@
+ 
+
+Inventory Reduction Countdown - HTML Code 
+
+Select all code on page 2, copy, paste into Notepad, Save As index.html (All Files) 
+
+ 
+
 <!DOCTYPE html> 
 <html lang="en"> 
 <head> 
@@ -7,16 +15,15 @@
 <style> 
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0} 
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f7fa;color:#1a2332;min-height:100vh;overflow-x:hidden} 
-.header{background:#fff;text-align:center;padding:22px 20px 14px;border-bottom:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.04)} 
-.header .brand{font-size:12px;text-transform:uppercase;letter-spacing:5px;color:#2563eb;font-weight:700;margin-bottom:3px} 
+.header{background:#fff;text-align:center;padding:18px 20px 12px;border-bottom:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.04)} 
+.header .brand{font-size:14px;letter-spacing:3px;color:#059669;font-weight:700;margin-bottom:3px} 
 .header h1{font-size:clamp(20px,3vw,30px);font-weight:700;color:#1a2332} 
 .header .subtitle{font-size:clamp(12px,1.5vw,15px);color:#6b7a8d;margin-top:2px} 
-.header .live-clock{font-size:12px;color:#94a3b8;margin-top:5px;font-variant-numeric:tabular-nums} 
 .container{max-width:1360px;margin:0 auto;padding:14px 20px 30px} 
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;margin-top:12px} 
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:transform .15s,box-shadow .15s} 
 .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)} 
-.card .card-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#6b7a8d;margin-bottom:5px;font-weight:600} 
+.card .card-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#6b7a8d;margin-bottom:5px;font-weight:800} 
 .card .card-value{font-size:clamp(17px,2.3vw,26px);font-weight:700;font-variant-numeric:tabular-nums} 
 .card .card-sub{font-size:11px;color:#94a3b8;margin-top:3px} 
 .green{color:#059669}.red{color:#dc2626}.blue{color:#2563eb}.dark{color:#1a2332}.amber{color:#d97706} 
@@ -35,7 +42,7 @@ svg.ring{width:70px;height:70px}
 .year-progress .bar-fill{height:100%;background:linear-gradient(90deg,#2563eb,#059669);border-radius:4px;transition:width 1s ease} 
 .year-progress .bar-label{font-size:11px;color:#94a3b8;margin-top:3px;text-align:center} 
 .pace-section{text-align:center;margin:18px 0 10px} 
-.pace-badge{display:inline-block;padding:12px 40px;border-radius:30px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;transition:all .3s;color:#fff} 
+.pace-badge{display:inline-block;padding:12px 40px;border-radius:30px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff} 
 .pace-detail-box{max-width:600px;margin:10px auto 0;padding:14px 20px;border-radius:12px;text-align:center} 
 .pace-line{font-size:14px;font-weight:600;margin:3px 0} 
 .pace-accel{font-size:13px;margin-top:6px;font-weight:700;letter-spacing:.5px} 
@@ -97,20 +104,12 @@ table.history tr:hover td{background:#f8fafc}
 </head> 
 <body> 
 <div class="header"> 
+  <img src="logo.png" alt="Calfrac" style="height:50px;margin:6px auto;display:block" onerror="this.style.display='none'"> 
   <div class="brand">Calfrac Well Services</div> 
   <h1>Inventory Reduction Countdown</h1> 
   <div class="subtitle">2026 Goal &middot; $4.8M Reduction &middot; $16.50M &#8594; $11.70M</div> 
-  <div class="live-clock" id="liveClock"></div> 
 </div> 
 <div class="container"> 
-  <div class="cards"> 
-    <div class="card"><div class="card-label">Starting Inventory</div><div class="card-value dark" id="metricStart">$16,500,300</div><div class="card-sub">Jan 1, 2026 Baseline</div></div> 
-    <div class="card"><div class="card-label">Current Inventory</div><div class="card-value blue" id="metricCurrent">--</div><div class="card-sub" id="metricCurrentSub">Sum of 4 districts</div></div> 
-    <div class="card"><div class="card-label">Reduction Achieved</div><div class="card-value" id="metricReduction">--</div><div class="card-sub" id="metricReductionSub"></div></div> 
-    <div class="card"><div class="card-label">Remaining to Save</div><div class="card-value amber" id="metricRemaining">--</div><div class="card-sub" id="metricRemainingSub">of $4,800,000 goal</div></div> 
-    <div class="card"><div class="card-label">Goal Achieved</div><div class="ring-wrapper"><svg class="ring" viewBox="0 0 36 36"><circle class="ring-bg" cx="18" cy="18" r="14.5"></circle><circle class="ring-fill" id="ringFill" cx="18" cy="18" r="14.5" stroke="#2563eb" stroke-dasharray="91.1" stroke-dashoffset="91.1" transform="rotate(-90 18 18)"></circle><text x="18" y="20.5" text-anchor="middle" fill="#1a2332" font-size="8" font-weight="700" id="ringText">0%</text></svg></div><div class="card-sub" id="metricGoalSub"></div></div> 
-    <div class="card"><div class="card-label">Savings per District</div><div class="card-value amber" id="metricPerDistrict">--</div><div class="card-sub">per district per month</div></div> 
-  </div> 
   <div class="countdown-section"> 
     <div class="countdown-label">Time Remaining in 2026</div> 
     <div class="countdown-boxes"> 
@@ -120,6 +119,14 @@ table.history tr:hover td{background:#f8fafc}
       <div class="cd-box"><div class="num" id="cdSecs">--</div><div class="lbl">Seconds</div></div> 
     </div> 
     <div class="year-progress"><div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div><div class="bar-label" id="yearLabel">0% of year elapsed</div></div> 
+  </div> 
+  <div class="cards"> 
+    <div class="card"><div class="card-label">Starting Inventory</div><div class="card-value dark" id="metricStart">$16,500,300</div><div class="card-sub">Jan 1, 2026 Baseline</div></div> 
+    <div class="card"><div class="card-label">Current Inventory</div><div class="card-value blue" id="metricCurrent">--</div><div class="card-sub">All 7 districts</div></div> 
+    <div class="card"><div class="card-label">Reduction Achieved</div><div class="card-value" id="metricReduction">--</div><div class="card-sub" id="metricReductionSub"></div></div> 
+    <div class="card"><div class="card-label">Remaining to Save</div><div class="card-value amber" id="metricRemaining">--</div><div class="card-sub" id="metricRemainingSub">of $4,800,000 goal</div></div> 
+    <div class="card"><div class="card-label">Goal Achieved</div><div class="ring-wrapper"><svg class="ring" viewBox="0 0 36 36"><circle class="ring-bg" cx="18" cy="18" r="14.5"></circle><circle class="ring-fill" id="ringFill" cx="18" cy="18" r="14.5" stroke="#2563eb" stroke-dasharray="91.1" stroke-dashoffset="91.1" transform="rotate(-90 18 18)"></circle><text x="18" y="20.5" text-anchor="middle" fill="#1a2332" font-size="8" font-weight="700" id="ringText">0%</text></svg></div><div class="card-sub" id="metricGoalSub"></div></div> 
+    <div class="card"><div class="card-label">Savings per District</div><div class="card-value amber" id="metricPerDistrict">--</div><div class="card-sub">per district per month</div></div> 
   </div> 
   <div class="pace-section"> 
     <div class="pace-badge" id="paceBadge">Calculating...</div> 
@@ -153,143 +160,133 @@ table.history tr:hover td{background:#f8fafc}
 <div class="footer">CALFRAC WELL SERVICES &middot; PARTS & INVENTORY OPERATIONS DASHBOARD &middot; 2026</div> 
 <script> 
 (function(){ 
-  var START=new Date('2026-01-01T00:00:00'),END=new Date('2026-12-31T23:59:59'); 
-  var TOTAL_BASELINE=16500300,GOAL=4800000,CIRC=2*Math.PI*14.5,YEAR_MS=END-START; 
-  var DISTRICTS=[ 
-    {key:'denver',name:'Denver',baseline:260407.52,trend:[260407.52,111188.69,169126.05,147950.53,141073.65]}, 
-    {key:'smithfield',name:'Smithfield',baseline:2155184.70,trend:[2155184.70,2076983.72,2251767.83,2202312.54,2261320.01]}, 
-    {key:'williston',name:'Williston',baseline:7511668.38,trend:[7511668.38,7650935.50,7659903.37,7513243.93,7661871.45]}, 
-    {key:'junction',name:'Grand Junction',baseline:6104008.76,trend:[6104008.76,6062567.28,6405503.43,5972017.52,5814511.11]} 
-  ]; 
-  var BASE_MONTHS=["Baseline","Jan '26","Feb '26","Mar '26","Apr '26"]; 
-  var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; 
-  var $=function(id){return document.getElementById(id)}; 
-  var fmt=function(n){var neg=n<0;return(neg?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US')}; 
-  var pad=function(n){return String(n).padStart(2,'0')}; 
-  function getML(){var now=new Date();return MN[now.getMonth()]+" '"+String(now.getFullYear()).slice(-2)} 
-  function gdc(k,fb){var v=localStorage.getItem('cf_dist_'+k);return v!==null?parseFloat(v):fb} 
-  function sdc(k,v){localStorage.setItem('cf_dist_'+k,v)} 
-  function gH(){try{return JSON.parse(localStorage.getItem('cf_dist_history'))||[]}catch(e){return[]}} 
-  function sH(h){localStorage.setItem('cf_dist_history',JSON.stringify(h))} 
-  function aH(d,v){var h=gH();h.push({date:new Date().toISOString(),district:d,value:v});sH(h)} 
-  function gTC(){return DISTRICTS.reduce(function(s,d){return s+gdc(d.key,d.trend[d.trend.length-1])},0)} 
-  function gDT(k){try{return JSON.parse(localStorage.getItem('cf_dist_trend_'+k))||[]}catch(e){return[]}} 
-  function sDT(k,a){localStorage.setItem('cf_dist_trend_'+k,JSON.stringify(a))} 
-  function aTE(k,v){var l=getML();var e=gDT(k);var f=false;for(var i=0;i<e.length;i++){if(e[i].label===l){e[i].value=v;f=true;break}}if(!f)e.push({label:l,value:v});sDT(k,e)} 
- 
-  window.clearHistory=function(){ 
-    if(confirm('Are you sure?\nThis will clear all history AND revert district values to their original inputs.\nThis cannot be undone.')){ 
-      localStorage.removeItem('cf_dist_history'); 
-      localStorage.removeItem('cf_dist_denver');localStorage.removeItem('cf_dist_smithfield'); 
-      localStorage.removeItem('cf_dist_williston');localStorage.removeItem('cf_dist_junction'); 
-      localStorage.removeItem('cf_dist_trend_denver');localStorage.removeItem('cf_dist_trend_smithfield'); 
-      localStorage.removeItem('cf_dist_trend_williston');localStorage.removeItem('cf_dist_trend_junction'); 
-      buildDistricts();renderHistory();refresh(); 
-    } 
-  }; 
-  window.deleteEntry=function(idx){ 
-    if(confirm('Delete this entry?')){var h=gH();h.splice(idx,1);sH(h);renderHistory()} 
-  }; 
- 
-  function buildDistricts(){ 
-    var wrap=$('districtContainer');wrap.innerHTML=''; 
-    DISTRICTS.forEach(function(d,i){ 
-      var cur=gdc(d.key,d.trend[d.trend.length-1]); 
-      var red=d.baseline-cur; 
-      var dg=(d.baseline/TOTAL_BASELINE)*GOAL; 
-      var pct=dg>0?Math.min((red/dg)*100,999):0; 
-      var pc=Math.max(0,Math.min(100,pct)); 
-      var bc=pct>=100?'#059669':pct>=50?'#2563eb':red>0?'#d97706':'#dc2626'; 
-      var pcl=pct>=100?'green':pct>=50?'blue':red>0?'amber':'red'; 
-      var aL=BASE_MONTHS.slice();var aV=d.trend.slice(); 
-      var ex=gDT(d.key);for(var e=0;e<ex.length;e++){aL.push(ex[e].label);aV.push(ex[e].value)} 
-      var tH='<div class="trend-hdr"><span>Month</span><span class="th-val">Value</span><span class="th-chg">MoM Change</span></div>'; 
-      for(var m=0;m<aL.length;m++){ 
-        var v=aV[m];var prev=m>0?aV[m-1]:v;var chg=prev-v; 
-        var cc=m===0?'':chg>=0?'tbl-green':'tbl-red'; 
-        var ct=m===0?'--':(chg>=0?'+':'')+fmt(chg); 
-        tH+='<div class="trend-row"><span>'+aL[m]+'</span><span class="trend-val">'+fmt(v)+'</span><span class="trend-chg '+cc+'">'+ct+'</span></div>'; 
-      } 
-      var lv=aV[aV.length-1];var tr=d.baseline-lv;var tc=tr>=0?'tbl-green':'tbl-red'; 
-      tH+='<div class="trend-total"><span>vs Baseline</span><span class="trend-val">'+fmt(lv)+'</span><span class="trend-chg '+tc+'">'+(tr>=0?'+':'')+fmt(tr)+'</span></div>'; 
-      var c=document.createElement('div');c.className='dist-card'; 
-      c.innerHTML='<span class="dist-name">'+d.name+'</span>' 
-        +'<div class="dist-row"><span>Baseline (Jan 1, \'26)</span><span class="val">'+fmt(d.baseline)+'</span></div>' 
-        +'<div class="dist-row"><span>Current</span><span class="val">'+fmt(cur)+'</span></div>' 
-        +'<div class="dist-row"><span>Reduction</span><span class="val '+(red>=0?'green':'red')+'">'+fmt(red)+'</span></div>' 
-        +'<div class="dist-row"><span>District Goal</span><span class="val">'+fmt(dg)+'</span></div>' 
-        +'<div class="dist-bar-bg"><div class="dist-bar-fill" style="width:'+pc+'%;background:'+bc+';"></div></div>' 
-        +'<div class="dist-pct '+pcl+'">'+pct.toFixed(1)+'% of goal</div>' 
-        +'<div class="dist-trend"><div class="trend-title">Monthly Trend</div>'+tH+'</div>' 
-        +'<div class="dist-input-area"><div class="dist-input-wrap"><label>Update Current Value</label><input type="text" id="dinp'+i+'" value="'+fmt(cur)+'"></div>' 
-        +'<button class="dist-btn" onclick="saveDist('+i+')">Save</button></div>'; 
-      wrap.appendChild(c); 
-      document.getElementById('dinp'+i).addEventListener('input',function(){var r=this.value.replace(/[^0-9]/g,'');if(r)this.value='$'+parseInt(r).toLocaleString('en-US');}); 
-    }); 
-  } 
- 
-  window.saveDist=function(i){ 
-    var inp=document.getElementById('dinp'+i);var raw=inp.value.replace(/[^0-9.]/g,''); 
-    if(!raw||isNaN(parseFloat(raw))){alert('Enter a valid dollar amount.');return} 
-    var val=parseFloat(raw);sdc(DISTRICTS[i].key,val);aTE(DISTRICTS[i].key,val);aH(DISTRICTS[i].name,val); 
-    buildDistricts();renderHistory();refresh(); 
-  }; 
- 
-  function renderHistory(){ 
-    var hist=gH();var body=$('historyBody');body.innerHTML=''; 
-    for(var i=hist.length-1;i>=0;i--){ 
-      var h=hist[i];var d=new Date(h.date); 
-      var ds=d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}); 
-      var dist=DISTRICTS.find(function(x){return x.name===h.district}); 
-      var red=dist?(dist.baseline-h.value):0;var cls=red>=0?'tbl-green':'tbl-red'; 
-      var isLast=(i===hist.length-1); 
-      var db=isLast?'<button class="btn-del" onclick="deleteEntry('+i+')" title="Delete">X</button>':''; 
-      body.innerHTML+='<tr><td>'+ds+'</td><td>'+h.district+'</td><td>'+fmt(h.value)+'</td><td class="'+cls+'">'+fmt(red)+'</td><td>'+db+'</td></tr>'; 
-    } 
-    if(!hist.length){body.innerHTML='<tr><td colspan="5" style="color:#94a3b8;text-align:center;padding:14px;">No manual updates yet -- update district values above.</td></tr>';} 
-  } 
- 
-  function refresh(){ 
-    try{ 
-    var now=new Date();var current=gTC(); 
-    var reduction=TOTAL_BASELINE-current;var remaining=Math.max(0,GOAL-reduction);var pctGoal=(reduction/GOAL)*100; 
-    var msLeft=Math.max(0,END-now);var ts=Math.floor(msLeft/1000); 
-    $('cdDays').textContent=Math.floor(ts/86400); 
-    $('cdHours').textContent=pad(Math.floor((ts%86400)/3600)); 
-    $('cdMins').textContent=pad(Math.floor((ts%3600)/60)); 
-    $('cdSecs').textContent=pad(ts%60); 
-    var elapsed=Math.max(0,Math.min(1,(now-START)/YEAR_MS)); 
-    $('yearBar').style.width=(elapsed*100).toFixed(2)+'%'; 
-    $('yearLabel').textContent=(elapsed*100).toFixed(1)+'% of year elapsed'; 
-    $('metricStart').textContent=fmt(TOTAL_BASELINE); 
-    $('metricCurrent').textContent=fmt(current); 
-    $('metricReduction').textContent=fmt(reduction); 
-    $('metricReduction').className='card-value '+(reduction>=0?'green':'red'); 
-    $('metricReductionSub').innerHTML=reduction>0?'&#8595; from baseline':reduction<0?'&#8593; inventory increased':'No change'; 
-    $('metricRemaining').textContent=fmt(remaining); 
-    $('metricRemainingSub').textContent=remaining<=0?'Goal reached!':'of '+fmt(GOAL)+' goal'; 
-    var pc=Math.max(0,Math.min(100,pctGoal)); 
-    $('ringFill').style.strokeDashoffset=CIRC-(CIRC*pc/100); 
-    $('ringFill').setAttribute('stroke',pctGoal>=100?'#059669':pctGoal>=50?'#2563eb':'#d97706'); 
-    $('ringText').textContent=pctGoal.toFixed(1)+'%'; 
-    $('metricGoalSub').textContent=fmt(reduction)+' of '+fmt(GOAL); 
-    var expRed=GOAL*elapsed;var diff=reduction-expRed; 
-    var badge=$('paceBadge'),box=$('paceBox'),elExp=$('paceExpected'),elAct=$('paceActual'),elDelta=$('paceDelta'),elAccel=$('paceAccel'); 
-    if(now<START){badge.className='pace-badge pace-on';badge.textContent='Starting Soon';box.className='pace-detail-box pace-detail-on';elExp.textContent='';elAct.textContent='Countdown begins January 1, 2026';elDelta.textContent='';elAccel.textContent=''} 
-    else if(now>END){var w=reduction>=GOAL;badge.className='pace-badge '+(w?'pace-ahead':'pace-behind');badge.innerHTML=w?'GOAL ACHIEVED!':'GOAL PERIOD COMPLETE';box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind');elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction);elDelta.textContent='';elAccel.textContent=''} 
-    else if(Math.abs(diff)<GOAL*0.02){badge.className='pace-badge pace-on';badge.innerHTML='&#9679; ON PACE';box.className='pace-detail-box pace-detail-on';elExp.innerHTML='Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>';elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb';elAccel.textContent=''} 
-    else if(diff>0){badge.className='pace-badge pace-ahead';badge.innerHTML='&#9989; AHEAD OF PACE';box.className='pace-detail-box pace-detail-ahead';elExp.innerHTML='Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">&#9650; '+fmt(diff)+' AHEAD</span>';var ma=diff/(GOAL/12);elAccel.textContent='~'+ma.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669'} 
-    else{badge.className='pace-badge pace-behind';badge.innerHTML='&#128680; BEHIND PACE';box.className='pace-detail-box pace-detail-behind';elExp.innerHTML='Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">&#9660; '+fmt(Math.abs(diff))+' BEHIND</span>';var mb=Math.abs(diff)/(GOAL/12);var ap=expRed>0?((Math.abs(diff)/expRed)*100):0;elAccel.innerHTML='~'+mb.toFixed(1)+' months behind schedule &middot; Must accelerate by '+ap.toFixed(0)+'%';elAccel.style.color='#dc2626'} 
-    var dL=Math.max(0.001,msLeft/86400000);var hL=dL*24;var wL=dL/7;var mL=dL/30.44; 
-    $('rateMonth').textContent=fmt(remaining/mL);$('rateMonthSub').textContent=mL.toFixed(1)+' months left'; 
-    $('rateWeek').textContent=fmt(remaining/wL);$('rateWeekSub').textContent=wL.toFixed(1)+' weeks left'; 
-    $('rateDay').textContent=fmt(remaining/dL);$('rateDaySub').textContent=Math.ceil(dL)+' days left'; 
-    $('rateHour').textContent=fmt(remaining/hL);$('rateHourSub').textContent=Math.round(hL).toLocaleString()+' hours left'; 
-    $('metricPerDistrict').textContent=fmt((remaining/mL)/4); 
-    $('liveClock').textContent=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'  |  '+now.toLocaleTimeString('en-US'); 
-    }catch(err){console.error('Refresh error:',err)} 
-  } 
-  buildDistricts();renderHistory();refresh();setInterval(refresh,1000); 
+var START=new Date('2026-01-01T00:00:00'),END=new Date('2026-12-31T23:59:59'); 
+var TOTAL_BASELINE=16500300,GOAL=4800000,OTHER_CURRENT=263288.78; 
+var CIRC=2*Math.PI*14.5,YEAR_MS=END-START; 
+var DISTRICTS=[ 
+{key:'denver',name:'Denver',baseline:260407.52,trend:[260407.52,111188.69,169126.05,147950.53,141073.65]}, 
+{key:'smithfield',name:'Smithfield',baseline:2155184.70,trend:[2155184.70,2076983.72,2251767.83,2202312.54,2261320.01]}, 
+{key:'williston',name:'Williston',baseline:7511668.38,trend:[7511668.38,7650935.50,7659903.37,7513243.93,7661871.45]}, 
+{key:'junction',name:'Grand Junction',baseline:6104008.76,trend:[6104008.76,6062567.28,6405503.43,5972017.52,5814511.11]} 
+]; 
+var BASE_MONTHS=["Baseline","Jan '26","Feb '26","Mar '26","Apr '26"]; 
+var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; 
+var $=function(id){return document.getElementById(id)}; 
+var fmt=function(n){var neg=n<0;return(neg?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US')}; 
+var pad=function(n){return String(n).padStart(2,'0')}; 
+function getML(){var now=new Date();return MN[now.getMonth()]+" '"+String(now.getFullYear()).slice(-2)} 
+function gdc(k,fb){var v=localStorage.getItem('cf_dist_'+k);return v!==null?parseFloat(v):fb} 
+function sdc(k,v){localStorage.setItem('cf_dist_'+k,v)} 
+function gH(){try{return JSON.parse(localStorage.getItem('cf_dist_history'))||[]}catch(e){return[]}} 
+function sH(h){localStorage.setItem('cf_dist_history',JSON.stringify(h))} 
+function aH(d,v){var h=gH();h.push({date:new Date().toISOString(),district:d,value:v});sH(h)} 
+function gTC(){return DISTRICTS.reduce(function(s,d){return s+gdc(d.key,d.trend[d.trend.length-1])},0)+OTHER_CURRENT} 
+function gDT(k){try{return JSON.parse(localStorage.getItem('cf_dist_trend_'+k))||[]}catch(e){return[]}} 
+function sDT(k,a){localStorage.setItem('cf_dist_trend_'+k,JSON.stringify(a))} 
+function aTE(k,v){var l=getML();var e=gDT(k);var f=false;for(var i=0;i<e.length;i++){if(e[i].label===l){e[i].value=v;f=true;break}}if(!f)e.push({label:l,value:v});sDT(k,e)} 
+window.clearHistory=function(){ 
+if(confirm('Are you sure? This will clear all history and revert district values to originals.')){ 
+localStorage.removeItem('cf_dist_history'); 
+localStorage.removeItem('cf_dist_denver');localStorage.removeItem('cf_dist_smithfield'); 
+localStorage.removeItem('cf_dist_williston');localStorage.removeItem('cf_dist_junction'); 
+localStorage.removeItem('cf_dist_trend_denver');localStorage.removeItem('cf_dist_trend_smithfield'); 
+localStorage.removeItem('cf_dist_trend_williston');localStorage.removeItem('cf_dist_trend_junction'); 
+buildDistricts();renderHistory();refresh();}}; 
+window.deleteEntry=function(idx){if(confirm('Delete this entry?')){var h=gH();h.splice(idx,1);sH(h);renderHistory()}}; 
+function buildDistricts(){ 
+var wrap=$('districtContainer');wrap.innerHTML=''; 
+DISTRICTS.forEach(function(d,i){ 
+var cur=gdc(d.key,d.trend[d.trend.length-1]); 
+var red=d.baseline-cur; 
+var dg=(d.baseline/TOTAL_BASELINE)*GOAL; 
+var pct=dg>0?Math.min((red/dg)*100,999):0; 
+var pc=Math.max(0,Math.min(100,pct)); 
+var bc=pct>=100?'#059669':pct>=50?'#2563eb':red>0?'#d97706':'#dc2626'; 
+var pcl=pct>=100?'green':pct>=50?'blue':red>0?'amber':'red'; 
+var aL=BASE_MONTHS.slice();var aV=d.trend.slice(); 
+var ex=gDT(d.key);for(var e=0;e<ex.length;e++){aL.push(ex[e].label);aV.push(ex[e].value)} 
+var tH='<div class="trend-hdr"><span>Month</span><span class="th-val">Value</span><span class="th-chg">MoM Change</span></div>'; 
+for(var m=0;m<aL.length;m++){ 
+var v=aV[m];var prev=m>0?aV[m-1]:v;var chg=prev-v; 
+var cc=m===0?'':chg>=0?'tbl-green':'tbl-red'; 
+var ct=m===0?'--':(chg>=0?'+':'')+fmt(chg); 
+tH+='<div class="trend-row"><span>'+aL[m]+'</span><span class="trend-val">'+fmt(v)+'</span><span class="trend-chg '+cc+'">'+ct+'</span></div>'; 
+} 
+var lv=aV[aV.length-1];var tr=d.baseline-lv;var tc=tr>=0?'tbl-green':'tbl-red'; 
+tH+='<div class="trend-total"><span>vs Baseline</span><span class="trend-val">'+fmt(lv)+'</span><span class="trend-chg '+tc+'">'+(tr>=0?'+':'')+fmt(tr)+'</span></div>'; 
+var c=document.createElement('div');c.className='dist-card'; 
+c.innerHTML='<span class="dist-name">'+d.name+'</span>' 
++'<div class="dist-row"><span>Baseline (Jan 1, \'26)</span><span class="val">'+fmt(d.baseline)+'</span></div>' 
++'<div class="dist-row"><span>Current</span><span class="val">'+fmt(cur)+'</span></div>' 
++'<div class="dist-row"><span>Reduction</span><span class="val '+(red>=0?'green':'red')+'">'+fmt(red)+'</span></div>' 
++'<div class="dist-row"><span>District Goal</span><span class="val">'+fmt(dg)+'</span></div>' 
++'<div class="dist-bar-bg"><div class="dist-bar-fill" style="width:'+pc+'%;background:'+bc+';"></div></div>' 
++'<div class="dist-pct '+pcl+'">'+pct.toFixed(1)+'% of goal</div>' 
++'<div class="dist-trend"><div class="trend-title">Monthly Trend</div>'+tH+'</div>' 
++'<div class="dist-input-area"><div class="dist-input-wrap"><label>Update Current Value</label><input type="text" id="dinp'+i+'" value="'+fmt(cur)+'"></div>' 
++'<button class="dist-btn" onclick="saveDist('+i+')">Save</button></div>'; 
+wrap.appendChild(c); 
+document.getElementById('dinp'+i).addEventListener('input',function(){ 
+var s=this.value,r='',j;for(j=0;j<s.length;j++){if(s[j]>='0'&&s[j]<='9')r+=s[j]} 
+if(r)this.value='$'+parseInt(r).toLocaleString('en-US'); 
+}); 
+});} 
+window.saveDist=function(i){ 
+var inp=document.getElementById('dinp'+i); 
+var s=inp.value,r='',j;for(j=0;j<s.length;j++){var ch=s[j];if((ch>='0'&&ch<='9')||ch==='.')r+=ch} 
+if(!r||isNaN(parseFloat(r))){alert('Enter a valid dollar amount.');return} 
+var val=parseFloat(r);sdc(DISTRICTS[i].key,val);aTE(DISTRICTS[i].key,val);aH(DISTRICTS[i].name,val); 
+buildDistricts();renderHistory();refresh();}; 
+function renderHistory(){ 
+var hist=gH();var body=$('historyBody');body.innerHTML=''; 
+for(var i=hist.length-1;i>=0;i--){ 
+var h=hist[i];var d=new Date(h.date); 
+var ds=d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}); 
+var dist=DISTRICTS.find(function(x){return x.name===h.district}); 
+var red=dist?(dist.baseline-h.value):0;var cls=red>=0?'tbl-green':'tbl-red'; 
+var isLast=(i===hist.length-1); 
+var db=isLast?'<button class="btn-del" onclick="deleteEntry('+i+')" title="Delete">X</button>':''; 
+body.innerHTML+='<tr><td>'+ds+'</td><td>'+h.district+'</td><td>'+fmt(h.value)+'</td><td class="'+cls+'">'+fmt(red)+'</td><td>'+db+'</td></tr>'; 
+} 
+if(!hist.length){body.innerHTML='<tr><td colspan="5" style="color:#94a3b8;text-align:center;padding:14px;">No manual updates yet -- update district values above.</td></tr>';}} 
+function refresh(){try{ 
+var now=new Date();var current=gTC(); 
+var reduction=TOTAL_BASELINE-current;var remaining=Math.max(0,GOAL-reduction);var pctGoal=(reduction/GOAL)*100; 
+var msLeft=Math.max(0,END-now);var ts=Math.floor(msLeft/1000); 
+$('cdDays').textContent=Math.floor(ts/86400); 
+$('cdHours').textContent=pad(Math.floor((ts%86400)/3600)); 
+$('cdMins').textContent=pad(Math.floor((ts%3600)/60)); 
+$('cdSecs').textContent=pad(ts%60); 
+var elapsed=Math.max(0,Math.min(1,(now-START)/YEAR_MS)); 
+$('yearBar').style.width=(elapsed*100).toFixed(2)+'%'; 
+$('yearLabel').textContent=(elapsed*100).toFixed(1)+'% of year elapsed'; 
+$('metricStart').textContent=fmt(TOTAL_BASELINE); 
+$('metricCurrent').textContent=fmt(current); 
+$('metricReduction').textContent=fmt(reduction); 
+$('metricReduction').className='card-value '+(reduction>=0?'green':'red'); 
+$('metricReductionSub').innerHTML=reduction>0?'&#8595; from baseline':reduction<0?'&#8593; inventory increased':'No change'; 
+$('metricRemaining').textContent=fmt(remaining); 
+$('metricRemainingSub').textContent=remaining<=0?'Goal reached!':'of '+fmt(GOAL)+' goal'; 
+var pc=Math.max(0,Math.min(100,pctGoal)); 
+$('ringFill').style.strokeDashoffset=CIRC-(CIRC*pc/100); 
+$('ringFill').setAttribute('stroke',pctGoal>=100?'#059669':pctGoal>=50?'#2563eb':'#d97706'); 
+$('ringText').textContent=pctGoal.toFixed(1)+'%'; 
+$('metricGoalSub').textContent=fmt(reduction)+' of '+fmt(GOAL); 
+var expRed=GOAL*elapsed;var diff=reduction-expRed; 
+var badge=$('paceBadge'),box=$('paceBox'),elExp=$('paceExpected'),elAct=$('paceActual'),elDelta=$('paceDelta'),elAccel=$('paceAccel'); 
+if(now<START){badge.className='pace-badge pace-on';badge.textContent='Starting Soon';box.className='pace-detail-box pace-detail-on';elExp.textContent='';elAct.textContent='Countdown begins January 1, 2026';elDelta.textContent='';elAccel.textContent=''} 
+else if(now>END){var w=reduction>=GOAL;badge.className='pace-badge '+(w?'pace-ahead':'pace-behind');badge.innerHTML=w?'GOAL ACHIEVED!':'GOAL PERIOD COMPLETE';box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind');elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction);elDelta.textContent='';elAccel.textContent=''} 
+else if(Math.abs(diff)<GOAL*0.02){badge.className='pace-badge pace-on';badge.innerHTML='&#9679; ON PACE';box.className='pace-detail-box pace-detail-on';elExp.innerHTML='Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>';elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb';elAccel.textContent=''} 
+else if(diff>0){badge.className='pace-badge pace-ahead';badge.innerHTML='&#9989; AHEAD OF PACE';box.className='pace-detail-box pace-detail-ahead';elExp.innerHTML='Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">&#9650; '+fmt(diff)+' AHEAD</span>';var ma=diff/(GOAL/12);elAccel.textContent='~'+ma.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669'} 
+else{badge.className='pace-badge pace-behind';badge.innerHTML='&#128680; BEHIND PACE';box.className='pace-detail-box pace-detail-behind';elExp.innerHTML='Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">&#9660; '+fmt(Math.abs(diff))+' BEHIND</span>';var mb=Math.abs(diff)/(GOAL/12);var ap=expRed>0?((Math.abs(diff)/expRed)*100):0;elAccel.innerHTML='~'+mb.toFixed(1)+' months behind schedule &middot; Must accelerate by '+ap.toFixed(0)+'%';elAccel.style.color='#dc2626'} 
+var dL=Math.max(0.001,msLeft/86400000);var hL=dL*24;var wL=dL/7;var mL=dL/30.44; 
+$('rateMonth').textContent=fmt(remaining/mL);$('rateMonthSub').textContent=mL.toFixed(1)+' months left'; 
+$('rateWeek').textContent=fmt(remaining/wL);$('rateWeekSub').textContent=wL.toFixed(1)+' weeks left'; 
+$('rateDay').textContent=fmt(remaining/dL);$('rateDaySub').textContent=Math.ceil(dL)+' days left'; 
+$('rateHour').textContent=fmt(remaining/hL);$('rateHourSub').textContent=Math.round(hL).toLocaleString()+' hours left'; 
+$('metricPerDistrict').textContent=fmt((remaining/mL)/4); 
+}catch(err){console.error('Refresh error:',err)}} 
+buildDistricts();renderHistory();refresh();setInterval(refresh,1000); 
 })(); 
 </script> 
 </body> 
