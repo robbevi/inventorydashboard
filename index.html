@@ -35,17 +35,16 @@ svg.ring{width:70px;height:70px}
 .year-progress .bar-fill{height:100%;background:linear-gradient(90deg,#2563eb,#059669);border-radius:4px;transition:width 1s ease} 
 .year-progress .bar-label{font-size:11px;color:#94a3b8;margin-top:3px;text-align:center} 
 .pace-section{text-align:center;margin:18px 0 10px} 
-.pace-badge{display:inline-block;padding:10px 36px;border-radius:30px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;transition:all .3s} 
+.pace-badge{display:inline-block;padding:12px 40px;border-radius:30px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;transition:all .3s;color:#fff} 
 .pace-detail-box{max-width:600px;margin:10px auto 0;padding:14px 20px;border-radius:12px;text-align:center} 
 .pace-line{font-size:14px;font-weight:600;margin:3px 0} 
 .pace-accel{font-size:13px;margin-top:6px;font-weight:700;letter-spacing:.5px} 
-.pace-ahead{background:#ecfdf5;color:#059669;border:2px solid #a7f3d0;box-shadow:0 0 18px rgba(5,150,105,.15)} 
-.pace-on{background:#eff6ff;color:#2563eb;border:2px solid #bfdbfe;box-shadow:0 0 12px rgba(37,99,235,.10)} 
-.pace-behind{background:#fef2f2;color:#dc2626;border:2px solid #fca5a5;box-shadow:0 0 24px rgba(220,38,38,.2);animation:pulseRed 1.5s ease-in-out infinite} 
+.pace-ahead{background:#059669;border:2px solid #047857} 
+.pace-on{background:#2563eb;border:2px solid #1d4ed8} 
+.pace-behind{background:#dc2626;border:2px solid #b91c1c} 
 .pace-detail-behind{background:#fef2f2;border:1px solid #fecaca;border-radius:12px} 
 .pace-detail-ahead{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px} 
 .pace-detail-on{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px} 
-@keyframes pulseRed{0%,100%{box-shadow:0 0 24px rgba(220,38,38,.2)}50%{box-shadow:0 0 40px rgba(220,38,38,.45),0 0 60px rgba(220,38,38,.15)}} 
 .section-title{font-size:12px;text-transform:uppercase;letter-spacing:3px;color:#2563eb;font-weight:700;margin:20px 0 6px;padding-bottom:5px;border-bottom:2px solid #e5e7eb} 
 .districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:14px;margin-top:10px} 
 .dist-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)} 
@@ -277,10 +276,10 @@ table.history tr:hover td{background:#f8fafc}
     var expRed=GOAL*elapsed;var diff=reduction-expRed; 
     var badge=$('paceBadge'),box=$('paceBox'),elExp=$('paceExpected'),elAct=$('paceActual'),elDelta=$('paceDelta'),elAccel=$('paceAccel'); 
     if(now<START){badge.className='pace-badge pace-on';badge.textContent='Starting Soon';box.className='pace-detail-box pace-detail-on';elExp.textContent='';elAct.textContent='Countdown begins January 1, 2026';elDelta.textContent='';elAccel.textContent=''} 
-    else if(now>END){var w=reduction>=GOAL;badge.className='pace-badge '+(w?'pace-ahead':'pace-behind');badge.textContent=w?'GOAL ACHIEVED!':'GOAL PERIOD COMPLETE';box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind');elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction);elDelta.textContent='';elAccel.textContent=''} 
-    else if(Math.abs(diff)<GOAL*0.02){badge.className='pace-badge pace-on';badge.textContent='ON PACE';box.className='pace-detail-box pace-detail-on';elExp.innerHTML='Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>';elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb';elAccel.textContent=''} 
-    else if(diff>0){badge.className='pace-badge pace-ahead';badge.textContent='AHEAD OF PACE';box.className='pace-detail-box pace-detail-ahead';elExp.innerHTML='Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">&#9650; '+fmt(diff)+' AHEAD</span>';var ma=diff/(GOAL/12);elAccel.textContent='~'+ma.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669'} 
-    else{badge.className='pace-badge pace-behind';badge.textContent='BEHIND PACE';box.className='pace-detail-box pace-detail-behind';elExp.innerHTML='Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">&#9660; '+fmt(Math.abs(diff))+' BEHIND</span>';var mb=Math.abs(diff)/(GOAL/12);var ap=expRed>0?((Math.abs(diff)/expRed)*100):0;elAccel.innerHTML='~'+mb.toFixed(1)+' months behind schedule &middot; Must accelerate by '+ap.toFixed(0)+'%';elAccel.style.color='#dc2626'} 
+    else if(now>END){var w=reduction>=GOAL;badge.className='pace-badge '+(w?'pace-ahead':'pace-behind');badge.innerHTML=w?'GOAL ACHIEVED!':'GOAL PERIOD COMPLETE';box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind');elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction);elDelta.textContent='';elAccel.textContent=''} 
+    else if(Math.abs(diff)<GOAL*0.02){badge.className='pace-badge pace-on';badge.innerHTML='&#9679; ON PACE';box.className='pace-detail-box pace-detail-on';elExp.innerHTML='Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>';elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb';elAccel.textContent=''} 
+    else if(diff>0){badge.className='pace-badge pace-ahead';badge.innerHTML='&#9989; AHEAD OF PACE';box.className='pace-detail-box pace-detail-ahead';elExp.innerHTML='Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">&#9650; '+fmt(diff)+' AHEAD</span>';var ma=diff/(GOAL/12);elAccel.textContent='~'+ma.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669'} 
+    else{badge.className='pace-badge pace-behind';badge.innerHTML='&#128680; BEHIND PACE';box.className='pace-detail-box pace-detail-behind';elExp.innerHTML='Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">&#9660; '+fmt(Math.abs(diff))+' BEHIND</span>';var mb=Math.abs(diff)/(GOAL/12);var ap=expRed>0?((Math.abs(diff)/expRed)*100):0;elAccel.innerHTML='~'+mb.toFixed(1)+' months behind schedule &middot; Must accelerate by '+ap.toFixed(0)+'%';elAccel.style.color='#dc2626'} 
     var dL=Math.max(0.001,msLeft/86400000);var hL=dL*24;var wL=dL/7;var mL=dL/30.44; 
     $('rateMonth').textContent=fmt(remaining/mL);$('rateMonthSub').textContent=mL.toFixed(1)+' months left'; 
     $('rateWeek').textContent=fmt(remaining/wL);$('rateWeekSub').textContent=wL.toFixed(1)+' weeks left'; 
