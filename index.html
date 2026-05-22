@@ -1,389 +1,447 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Calfrac – Inventory Reduction Countdown</title>
-<style>
-/* ── Reset & Base ──────────────────────────────────────────── */
-*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f7fa;color:#1a2332;min-height:100vh;overflow-x:hidden}
-
-/* ── Header ─────────────────────────────────────────────────── */
-.header{background:#ffffff;text-align:center;padding:24px 20px 16px;border-bottom:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.header .brand{font-size:12px;text-transform:uppercase;letter-spacing:5px;color:#2563eb;font-weight:700;margin-bottom:4px}
-.header h1{font-size:clamp(20px,3vw,32px);font-weight:700;color:#1a2332}
-.header .subtitle{font-size:clamp(12px,1.6vw,16px);color:#6b7a8d;margin-top:2px}
-.header .live-clock{font-size:12px;color:#94a3b8;margin-top:6px;font-variant-numeric:tabular-nums}
-
-/* ── Container ──────────────────────────────────────────────── */
-.container{max-width:1340px;margin:0 auto;padding:16px 20px 30px}
-
-/* ── Cards ──────────────────────────────────────────────────── */
-.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:14px;margin-top:14px}
-.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:18px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:transform .15s,box-shadow .15s}
-.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
-.card .card-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#6b7a8d;margin-bottom:6px;font-weight:600}
-.card .card-value{font-size:clamp(18px,2.5vw,28px);font-weight:700;font-variant-numeric:tabular-nums}
-.card .card-sub{font-size:11px;color:#94a3b8;margin-top:3px}
-.green{color:#059669}.red{color:#dc2626}.blue{color:#2563eb}.dark{color:#1a2332}.amber{color:#d97706}
-
-/* ── Ring ────────────────────────────────────────────────────── */
-.ring-wrapper{display:flex;justify-content:center;margin:4px 0 2px}
-svg.ring{width:74px;height:74px}
-.ring-bg{fill:none;stroke:#e5e7eb;stroke-width:6}
-.ring-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .8s ease,stroke .4s}
-
-/* ── Countdown ──────────────────────────────────────────────── */
-.countdown-section{text-align:center;padding:18px 0 10px}
-.countdown-label{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#6b7a8d;font-weight:600;margin-bottom:10px}
-.countdown-boxes{display:flex;justify-content:center;gap:12px;flex-wrap:wrap}
-.cd-box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:12px 20px;min-width:92px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.cd-box .num{font-size:clamp(28px,4.5vw,46px);font-weight:700;color:#1a2332;font-variant-numeric:tabular-nums;line-height:1.1}
-.cd-box .lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#94a3b8;margin-top:3px;font-weight:600}
-
-/* ── Year Progress ──────────────────────────────────────────── */
-.year-progress{margin:14px auto 0;max-width:660px}
-.year-progress .bar-bg{height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden}
-.year-progress .bar-fill{height:100%;background:linear-gradient(90deg,#2563eb,#059669);border-radius:4px;transition:width 1s ease}
-.year-progress .bar-label{font-size:11px;color:#94a3b8;margin-top:3px;text-align:center}
-
-/* ── Pace ───────────────────────────────────────────────────── */
-.pace-section{text-align:center;margin:16px 0 6px}
-.pace-badge{display:inline-block;padding:7px 26px;border-radius:24px;font-size:14px;font-weight:700;letter-spacing:.5px;text-transform:uppercase}
-.pace-detail{font-size:12px;color:#6b7a8d;margin-top:4px}
-.pace-ahead{background:#ecfdf5;color:#059669;border:1px solid #a7f3d0}
-.pace-on{background:#eff6ff;color:#2563eb;border:1px solid #bfdbfe}
-.pace-behind{background:#fef2f2;color:#dc2626;border:1px solid #fecaca}
-
-/* ── Section Title ──────────────────────────────────────────── */
-.section-title{font-size:12px;text-transform:uppercase;letter-spacing:3px;color:#2563eb;font-weight:700;margin:22px 0 6px;padding-bottom:5px;border-bottom:2px solid #e5e7eb}
-
-/* ── District ───────────────────────────────────────────────── */
-
-/* ── Rates ──────────────────────────────────────────────────── */
-.rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:14px;margin-top:12px}
-.rate-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.rate-card .rate-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#6b7a8d;margin-bottom:5px;font-weight:600}
-.rate-card .rate-value{font-size:clamp(16px,2.2vw,24px);font-weight:700;color:#d97706;font-variant-numeric:tabular-nums}
-.rate-card .rate-sub{font-size:10px;color:#94a3b8;margin-top:2px}
-
-/* ── Input Section ──────────────────────────────────────────── */
-.input-section{margin-top:14px;background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:20px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-.input-row{display:flex;align-items:center;gap:12px;flex-wrap:wrap;justify-content:center}
-.input-row label{font-size:13px;color:#6b7a8d;font-weight:600}
-.input-row input[type="text"]{background:#f8fafc;border:1px solid #e5e7eb;border-radius:8px;padding:10px 16px;font-size:17px;color:#1a2332;width:220px;font-variant-numeric:tabular-nums;text-align:right;outline:none;transition:border-color .2s}
-.input-row input:focus{border-color:#2563eb}
-.input-row button{background:#2563eb;border:none;border-radius:8px;padding:10px 28px;font-size:14px;font-weight:600;color:#fff;cursor:pointer;transition:opacity .15s}
-.input-row button:hover{opacity:.85}
-.last-updated{font-size:11px;color:#94a3b8;margin-top:8px;text-align:center}
-
-/* ── History ────────────────────────────────────────────────── */
-.history-section{margin-top:12px}
-table.history{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,.04)}
-table.history th{text-transform:uppercase;letter-spacing:1px;font-size:10px;color:#6b7a8d;padding:10px 14px;text-align:left;border-bottom:2px solid #e5e7eb;background:#f8fafc;font-weight:700}
-table.history td{padding:9px 14px;border-bottom:1px solid #f1f5f9;font-variant-numeric:tabular-nums}
-table.history tr:hover td{background:#f8fafc}
-.tbl-green{color:#059669;font-weight:600}.tbl-red{color:#dc2626;font-weight:600}
-
-/* ── Footer ─────────────────────────────────────────────────── */
-.footer{text-align:center;padding:18px;font-size:10px;color:#94a3b8;margin-top:24px;letter-spacing:1px}
-
-/* ── Name Editor ────────────────────────────────────────────── */
-</style>
-</head>
-<body>
-
-<!-- ═══ HEADER ════════════════════════════════════════════════ -->
-<div class="header">
-  <div class="brand">Calfrac Well Services</div>
-  <h1>Inventory Reduction Countdown</h1>
-  <div class="subtitle">2026 Goal&ensp;·&ensp;$4.8M Reduction&ensp;·&ensp;$16.16M → $11.36M</div>
-  <div class="live-clock" id="liveClock"></div>
-</div>
-
-<div class="container">
-
-  <!-- ═══ KEY METRICS (top) ══════════════════════════════════ -->
-  <div class="cards">
-    <div class="card">
-      <div class="card-label">Starting Inventory</div>
-      <div class="card-value dark">$16,160,000</div>
-      <div class="card-sub">Jan 1, 2026</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Current Inventory</div>
-      <div class="card-value blue" id="metricCurrent">$16,160,000</div>
-      <div class="card-sub" id="metricCurrentSub">Update below</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Reduction Achieved</div>
-      <div class="card-value" id="metricReduction">$0</div>
-      <div class="card-sub" id="metricReductionSub"></div>
-    </div>
-    <div class="card">
-      <div class="card-label">Remaining to Save</div>
-      <div class="card-value amber" id="metricRemaining">$4,800,000</div>
-      <div class="card-sub" id="metricRemainingSub">of $4.8M goal</div>
-    </div>
-    <div class="card">
-      <div class="card-label">Goal Achieved</div>
-      <div class="ring-wrapper">
-        <svg class="ring" viewBox="0 0 36 36">
-          <circle class="ring-bg" cx="18" cy="18" r="14.5"></circle>
-          <circle class="ring-fill" id="ringFill" cx="18" cy="18" r="14.5"
-                  stroke="#2563eb" stroke-dasharray="91.1" stroke-dashoffset="91.1"
-                  transform="rotate(-90 18 18)"></circle>
-          <text x="18" y="20.5" text-anchor="middle" fill="#1a2332" font-size="8" font-weight="700" id="ringText">0%</text>
-        </svg>
-      </div>
-      <div class="card-sub" id="metricGoalSub"></div>
-    </div>
-    <div class="card">
-      <div class="card-label">Savings per District</div>
-      <div class="card-value amber" id="metricPerDistrict">$0</div>
-      <div class="card-sub">per district per month</div>
-    </div>
-  </div>
-
-  <!-- ═══ COUNTDOWN ══════════════════════════════════════════ -->
-  <div class="countdown-section">
-    <div class="countdown-label">Time Remaining in 2026</div>
-    <div class="countdown-boxes">
-      <div class="cd-box"><div class="num" id="cdDays">---</div><div class="lbl">Days</div></div>
-      <div class="cd-box"><div class="num" id="cdHours">--</div><div class="lbl">Hours</div></div>
-      <div class="cd-box"><div class="num" id="cdMins">--</div><div class="lbl">Minutes</div></div>
-      <div class="cd-box"><div class="num" id="cdSecs">--</div><div class="lbl">Seconds</div></div>
-    </div>
-    <div class="year-progress">
-      <div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div>
-      <div class="bar-label" id="yearLabel">0% of year elapsed</div>
-    </div>
-  </div>
-
-  <!-- ═══ PACE ═══════════════════════════════════════════════ -->
-  <div class="pace-section">
-    <div class="pace-badge" id="paceBadge">Calculating…</div>
-    <div class="pace-detail" id="paceDetail"></div>
-  </div>
-
-
-  <!-- ═══ REQUIRED SAVINGS RATE ══════════════════════════════ -->
-  <div class="section-title">Required Savings Rate (to hit goal)</div>
-  <div class="rates">
-    <div class="rate-card">
-      <div class="rate-label">Per Month</div>
-      <div class="rate-value" id="rateMonth">--</div>
-      <div class="rate-sub" id="rateMonthSub"></div>
-    </div>
-    <div class="rate-card">
-      <div class="rate-label">Per Week</div>
-      <div class="rate-value" id="rateWeek">--</div>
-      <div class="rate-sub" id="rateWeekSub"></div>
-    </div>
-    <div class="rate-card">
-      <div class="rate-label">Per Day</div>
-      <div class="rate-value" id="rateDay">--</div>
-      <div class="rate-sub" id="rateDaySub"></div>
-    </div>
-    <div class="rate-card">
-      <div class="rate-label">Per Hour</div>
-      <div class="rate-value" id="rateHour">--</div>
-      <div class="rate-sub" id="rateHourSub"></div>
-    </div>
-  </div>
-
-  <!-- ═══ MONTHLY INPUT ══════════════════════════════════════ -->
-  <div class="section-title">Monthly Update (Total Inventory)</div>
-  <div class="input-section">
-    <div class="input-row">
-      <label for="invInput">Current Inventory Value:</label>
-      <input type="text" id="invInput" placeholder="$16,160,000">
-      <button onclick="updateInventory()">Update</button>
-    </div>
-    <div class="last-updated" id="lastUpdated"></div>
-  </div>
-
-  <!-- ═══ HISTORY ════════════════════════════════════════════ -->
-  <div class="history-section">
-    <div class="section-title">Monthly History</div>
-    <table class="history">
-      <thead>
-        <tr><th>Date</th><th>Inventory Value</th><th>Reduction from Start</th><th>Monthly Change</th></tr>
-      </thead>
-      <tbody id="historyBody"></tbody>
-    </table>
-  </div>
-
-</div>
-
-<div class="footer">CALFRAC WELL SERVICES&ensp;·&ensp;PARTS & INVENTORY OPERATIONS DASHBOARD&ensp;·&ensp;2026</div>
-
-<!-- ════════════════════════════════════════════════════════════ -->
-<script>
-(function(){
-  /* ── Constants ─────────────────────────────────────────────── */
-  const START    = new Date('2026-01-01T00:00:00');
-  const END      = new Date('2026-12-31T23:59:59');
-  const STARTING = 16160000;
-  const GOAL     = 4800000;
-  const TARGET   = STARTING - GOAL;
-  const YEAR_MS  = END - START;
-  const CIRC     = 2 * Math.PI * 14.5;
-
-  /* ── Helpers ───────────────────────────────────────────────── */
-  const $ = id => document.getElementById(id);
-  const fmt = (n) => {
-    const neg = n < 0;
-    const abs = Math.abs(Math.round(n));
-    return (neg ? '-' : '') + '$' + abs.toLocaleString('en-US');
-  };
-  const pad = n => String(n).padStart(2,'0');
-  const parseNum = s => { const v = parseFloat(String(s).replace(/[^0-9.]/g,'')); return isNaN(v) ? 0 : v; };
-
-  /* ── LocalStorage wrappers ─────────────────────────────────── */
-  function lsGet(k, def) { const v = localStorage.getItem(k); return v !== null ? v : def; }
-  function lsSet(k, v)   { localStorage.setItem(k, v); }
-  function lsGetJSON(k, def) { try { return JSON.parse(localStorage.getItem(k)) || def; } catch(e){ return def; } }
-  function lsSetJSON(k, v)   { localStorage.setItem(k, JSON.stringify(v)); }
-
-  function getCurrent()   { return parseFloat(lsGet('cf_inv_current', STARTING)); }
-  function setCurrent(v)  { lsSet('cf_inv_current', v); lsSet('cf_inv_updated', new Date().toISOString()); }
-  function getHistory()   { return lsGetJSON('cf_inv_history', []); }
-  function addHistory(v)  { const h = getHistory(); h.push({ date: new Date().toISOString(), value: v }); lsSetJSON('cf_inv_history', h); }
-
-  /* ── District data ─────────────────────────────────────────── */
-
-
-
-
-
-
-  /* ── Update total inventory ────────────────────────────────── */
-  window.updateInventory = function() {
-    const raw = $('invInput').value.replace(/[^0-9.]/g,'');
-    if(!raw||isNaN(parseFloat(raw))){ alert('Please enter a valid dollar amount.'); return; }
-    const val = parseFloat(raw);
-    setCurrent(val);
-    addHistory(val);
-    $('invInput').value = '';
-    refresh();
-    renderHistory();
-  };
-
-  /* ── Format total input ────────────────────────────────────── */
-  $('invInput').addEventListener('input', function(){
-    let raw = this.value.replace(/[^0-9]/g,'');
-    if(raw) this.value = '$' + parseInt(raw).toLocaleString('en-US');
-  });
-
-  /* ── History table ─────────────────────────────────────────── */
-  function renderHistory() {
-    const hist = getHistory();
-    const body = $('historyBody');
-    body.innerHTML = '';
-    for(let i=hist.length-1;i>=0;i--){
-      const h = hist[i];
-      const d = new Date(h.date);
-      const ds = d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric'});
-      const red = STARTING - h.value;
-      const prev = i>0 ? hist[i-1].value : STARTING;
-      const chg = prev - h.value;
-      body.innerHTML += '<tr>'
-        +'<td>'+ds+'</td>'
-        +'<td>'+fmt(h.value)+'</td>'
-        +'<td class="'+(red>=0?'tbl-green':'tbl-red')+'">'+fmt(red)+'</td>'
-        +'<td class="'+(chg>=0?'tbl-green':'tbl-red')+'">'+(chg>=0?'+':'')+fmt(chg)+'</td>'
-        +'</tr>';
-    }
-    if(!hist.length){
-      body.innerHTML = '<tr><td colspan="4" style="color:#94a3b8;text-align:center;padding:16px;">No entries yet — update your inventory value above.</td></tr>';
-    }
-  }
-
-  /* ── Main refresh (runs every second) ──────────────────────── */
-  function refresh() {
-    const now = new Date();
-    const current = getCurrent();
-    const reduction = STARTING - current;
-    const remaining = Math.max(0, GOAL - reduction);
-    const pctGoal = (reduction / GOAL) * 100;
-
-    /* Countdown */
-    const msLeft = Math.max(0, END - now);
-    const ts = Math.floor(msLeft/1000);
-    $('cdDays').textContent  = Math.floor(ts/86400);
-    $('cdHours').textContent = pad(Math.floor((ts%86400)/3600));
-    $('cdMins').textContent  = pad(Math.floor((ts%3600)/60));
-    $('cdSecs').textContent  = pad(ts%60);
-
-    /* Year progress */
-    const elapsed = Math.max(0,Math.min(1,(now-START)/YEAR_MS));
-    $('yearBar').style.width = (elapsed*100).toFixed(2)+'%';
-    $('yearLabel').textContent = (elapsed*100).toFixed(1)+'% of year elapsed';
-
-    /* Metrics */
-    $('metricCurrent').textContent = fmt(current);
-    const upd = localStorage.getItem('cf_inv_updated');
-    $('metricCurrentSub').textContent = upd ? 'Updated '+new Date(upd).toLocaleDateString('en-US',{month:'short',day:'numeric',year:'numeric'}) : 'Update below';
-
-    $('metricReduction').textContent = fmt(reduction);
-    $('metricReduction').className = 'card-value '+(reduction>=0?'green':'red');
-    $('metricReductionSub').textContent = reduction>0 ? '↓ from starting' : reduction<0 ? '↑ inventory increased' : 'No change yet';
-
-    $('metricRemaining').textContent = fmt(remaining);
-    $('metricRemainingSub').textContent = remaining<=0 ? '🎉 Goal reached!' : 'of '+fmt(GOAL)+' goal';
-
-    /* Ring */
-    const pc = Math.max(0,Math.min(100,pctGoal));
-    $('ringFill').style.strokeDashoffset = CIRC - (CIRC*pc/100);
-    $('ringFill').setAttribute('stroke', pctGoal>=100?'#059669':pctGoal>=50?'#2563eb':'#d97706');
-    $('ringText').textContent = pctGoal.toFixed(1)+'%';
-    $('metricGoalSub').textContent = fmt(reduction)+' of '+fmt(GOAL);
-
-    /* Pace */
-    const expRed = GOAL * elapsed;
-    const diff = reduction - expRed;
-    const badge=$('paceBadge'), detail=$('paceDetail');
-    if(now<START){ badge.className='pace-badge pace-on'; badge.textContent='Starting Soon'; detail.textContent='Countdown begins January 1, 2026'; }
-    else if(now>END){ badge.className='pace-badge '+(reduction>=GOAL?'pace-ahead':'pace-behind'); badge.textContent=reduction>=GOAL?'🎉 Goal Achieved!':'Goal Period Complete'; detail.textContent='Final reduction: '+fmt(reduction); }
-    else if(Math.abs(diff)<GOAL*0.02){ badge.className='pace-badge pace-on'; badge.textContent='● On Pace'; detail.textContent='Expected '+fmt(expRed)+' by now · Actual '+fmt(reduction); }
-    else if(diff>0){ badge.className='pace-badge pace-ahead'; badge.textContent='▲ Ahead of Pace'; detail.textContent=fmt(diff)+' ahead · Expected '+fmt(expRed)+' by now'; }
-    else { badge.className='pace-badge pace-behind'; badge.textContent='▼ Behind Pace'; detail.textContent=fmt(Math.abs(diff))+' behind · Expected '+fmt(expRed)+' by now'; }
-
-    /* Rates */
-    const daysLeft   = Math.max(0.001, msLeft/86400000);
-    const hoursLeft  = daysLeft * 24;
-    const weeksLeft  = daysLeft / 7;
-    const monthsLeft = daysLeft / 30.44;
-    $('rateMonth').textContent = fmt(remaining/monthsLeft);
-    $('rateMonthSub').textContent = monthsLeft.toFixed(1)+' months left';
-    $('rateWeek').textContent = fmt(remaining/weeksLeft);
-    $('rateWeekSub').textContent = weeksLeft.toFixed(1)+' weeks left';
-    $('rateDay').textContent = fmt(remaining/daysLeft);
-    $('rateDaySub').textContent = Math.ceil(daysLeft)+' days left';
-    $('rateHour').textContent = fmt(remaining/hoursLeft);
-    $('rateHourSub').textContent = Math.round(hoursLeft).toLocaleString()+' hours left';
-
-    /* Savings per District = required monthly rate ÷ 4 districts */
-    const monthlyRate = remaining / monthsLeft;
-    const perDistrict = monthlyRate / 4;
-    $('metricPerDistrict').textContent = fmt(perDistrict);
-    $('metricPerDistrict').className = 'card-value amber';
-
-    /* Last updated */
-    if(upd) $('lastUpdated').textContent = 'Last updated: '+new Date(upd).toLocaleString('en-US');
-
-    /* Clock */
-    $('liveClock').textContent = now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})
-      +'  ·  '+now.toLocaleTimeString('en-US');
-  }
-
-  /* ── Init ──────────────────────────────────────────────────── */
-  refresh();
-  renderHistory();
-  setInterval(refresh, 1000);
-})();
-</script>
-</body>
-</html>
+<!DOCTYPE html> 
+<html lang="en"> 
+<head> 
+<meta charset="UTF-8"> 
+<meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+<title>Calfrac – Inventory Reduction Countdown</title> 
+<style> 
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0} 
+body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f7fa;color:#1a2332;min-height:100vh;overflow-x:hidden} 
+ 
+.header{background:#fff;text-align:center;padding:22px 20px 14px;border-bottom:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.04)} 
+.header .brand{font-size:12px;text-transform:uppercase;letter-spacing:5px;color:#2563eb;font-weight:700;margin-bottom:3px} 
+.header h1{font-size:clamp(20px,3vw,30px);font-weight:700;color:#1a2332} 
+.header .subtitle{font-size:clamp(12px,1.5vw,15px);color:#6b7a8d;margin-top:2px} 
+.header .live-clock{font-size:12px;color:#94a3b8;margin-top:5px;font-variant-numeric:tabular-nums} 
+ 
+.container{max-width:1360px;margin:0 auto;padding:14px 20px 30px} 
+ 
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;margin-top:12px} 
+.card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:transform .15s,box-shadow .15s} 
+.card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)} 
+.card .card-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#6b7a8d;margin-bottom:5px;font-weight:600} 
+.card .card-value{font-size:clamp(17px,2.3vw,26px);font-weight:700;font-variant-numeric:tabular-nums} 
+.card .card-sub{font-size:11px;color:#94a3b8;margin-top:3px} 
+.green{color:#059669}.red{color:#dc2626}.blue{color:#2563eb}.dark{color:#1a2332}.amber{color:#d97706} 
+ 
+.ring-wrapper{display:flex;justify-content:center;margin:4px 0 2px} 
+svg.ring{width:70px;height:70px} 
+.ring-bg{fill:none;stroke:#e5e7eb;stroke-width:6} 
+.ring-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .8s ease,stroke .4s} 
+ 
+.countdown-section{text-align:center;padding:16px 0 8px} 
+.countdown-label{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#6b7a8d;font-weight:600;margin-bottom:8px} 
+.countdown-boxes{display:flex;justify-content:center;gap:10px;flex-wrap:wrap} 
+.cd-box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 18px;min-width:88px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)} 
+.cd-box .num{font-size:clamp(26px,4vw,42px);font-weight:700;color:#1a2332;font-variant-numeric:tabular-nums;line-height:1.1} 
+.cd-box .lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#94a3b8;margin-top:2px;font-weight:600} 
+ 
+.year-progress{margin:12px auto 0;max-width:640px} 
+.year-progress .bar-bg{height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden} 
+.year-progress .bar-fill{height:100%;background:linear-gradient(90deg,#2563eb,#059669);border-radius:4px;transition:width 1s ease} 
+.year-progress .bar-label{font-size:11px;color:#94a3b8;margin-top:3px;text-align:center} 
+ 
+.pace-section{text-align:center;margin:18px 0 10px} 
+.pace-badge{display:inline-block;padding:10px 36px;border-radius:30px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;transition:all .3s} 
+.pace-detail-box{max-width:600px;margin:10px auto 0;padding:14px 20px;border-radius:12px;text-align:center} 
+.pace-line{font-size:14px;font-weight:600;margin:3px 0} 
+.pace-accel{font-size:13px;margin-top:6px;font-weight:700;letter-spacing:.5px} 
+.pace-ahead{background:#ecfdf5;color:#059669;border:2px solid #a7f3d0;box-shadow:0 0 18px rgba(5,150,105,.15)} 
+.pace-on{background:#eff6ff;color:#2563eb;border:2px solid #bfdbfe;box-shadow:0 0 12px rgba(37,99,235,.10)} 
+.pace-behind{background:#fef2f2;color:#dc2626;border:2px solid #fca5a5;box-shadow:0 0 24px rgba(220,38,38,.2);animation:pulseRed 1.5s ease-in-out infinite} 
+.pace-detail-behind{background:#fef2f2;border:1px solid #fecaca;border-radius:12px} 
+.pace-detail-ahead{background:#ecfdf5;border:1px solid #a7f3d0;border-radius:12px} 
+.pace-detail-on{background:#eff6ff;border:1px solid #bfdbfe;border-radius:12px} 
+@keyframes pulseRed{ 
+  0%,100%{box-shadow:0 0 24px rgba(220,38,38,.2)} 
+  50%{box-shadow:0 0 40px rgba(220,38,38,.45),0 0 60px rgba(220,38,38,.15)} 
+} 
+ 
+.section-title{font-size:12px;text-transform:uppercase;letter-spacing:3px;color:#2563eb;font-weight:700;margin:20px 0 6px;padding-bottom:5px;border-bottom:2px solid #e5e7eb} 
+ 
+.districts{display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:14px;margin-top:10px} 
+.dist-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)} 
+.dist-name{font-size:15px;font-weight:700;color:#2563eb;margin-bottom:8px;display:block} 
+.dist-row{display:flex;justify-content:space-between;font-size:12px;margin:3px 0;color:#6b7a8d} 
+.dist-row .val{font-weight:600;color:#1a2332;font-variant-numeric:tabular-nums} 
+.dist-bar-bg{height:6px;background:#e5e7eb;border-radius:3px;overflow:hidden;margin-top:8px} 
+.dist-bar-fill{height:100%;border-radius:3px;transition:width .6s ease} 
+.dist-pct{text-align:right;font-size:11px;font-weight:700;margin-top:3px} 
+.dist-trend{margin-top:10px;border-top:1px solid #f1f5f9;padding-top:8px} 
+.dist-trend .trend-title{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;font-weight:600;margin-bottom:4px} 
+.trend-row{display:flex;justify-content:space-between;font-size:11px;color:#6b7a8d;padding:2px 0} 
+.trend-row .trend-val{font-weight:600;font-variant-numeric:tabular-nums;color:#1a2332} 
+.trend-row .trend-chg{font-weight:600;font-variant-numeric:tabular-nums;font-size:10px} 
+.dist-input-area{margin-top:10px;display:flex;gap:6px;align-items:flex-end} 
+.dist-input-area label{font-size:10px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;font-weight:600;display:block;margin-bottom:2px} 
+.dist-input-area input{background:#f8fafc;border:1px solid #e5e7eb;border-radius:6px;padding:6px 10px;font-size:13px;color:#1a2332;width:100%;text-align:right;outline:none;font-variant-numeric:tabular-nums;transition:border-color .2s} 
+.dist-input-area input:focus{border-color:#2563eb} 
+.dist-input-wrap{flex:1} 
+.dist-btn{background:#2563eb;color:#fff;border:none;border-radius:6px;padding:6px 14px;font-size:12px;font-weight:600;cursor:pointer;transition:opacity .15s;white-space:nowrap} 
+.dist-btn:hover{opacity:.85} 
+ 
+.rates{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:10px} 
+.rate-card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:14px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)} 
+.rate-card .rate-label{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#6b7a8d;margin-bottom:4px;font-weight:600} 
+.rate-card .rate-value{font-size:clamp(15px,2vw,22px);font-weight:700;color:#d97706;font-variant-numeric:tabular-nums} 
+.rate-card .rate-sub{font-size:10px;color:#94a3b8;margin-top:2px} 
+ 
+.history-section{margin-top:10px} 
+.history-header{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:8px} 
+.btn-clear{background:transparent;color:#dc2626;border:2px solid #dc2626;border-radius:8px;padding:6px 16px;font-size:12px;font-weight:700;cursor:pointer;text-transform:uppercase;letter-spacing:1px;transition:all .15s} 
+.btn-clear:hover{background:#dc2626;color:#fff} 
+table.history{width:100%;border-collapse:collapse;font-size:12px;background:#fff;border-radius:12px;overflow:hidden;border:1px solid #e5e7eb;box-shadow:0 1px 3px rgba(0,0,0,.04);margin-top:8px} 
+table.history th{text-transform:uppercase;letter-spacing:1px;font-size:10px;color:#6b7a8d;padding:9px 12px;text-align:left;border-bottom:2px solid #e5e7eb;background:#f8fafc;font-weight:700} 
+table.history td{padding:8px 12px;border-bottom:1px solid #f1f5f9;font-variant-numeric:tabular-nums} 
+table.history tr:hover td{background:#f8fafc} 
+.tbl-green{color:#059669;font-weight:600}.tbl-red{color:#dc2626;font-weight:600} 
+.btn-del{background:none;border:none;color:#dc2626;font-size:14px;cursor:pointer;padding:2px 6px;border-radius:4px;transition:background .15s} 
+.btn-del:hover{background:#fef2f2} 
+ 
+.footer{text-align:center;padding:16px;font-size:10px;color:#94a3b8;margin-top:20px;letter-spacing:1px} 
+</style> 
+</head> 
+<body> 
+ 
+<div class="header"> 
+  <div class="brand">Calfrac Well Services</div> 
+  <h1>Inventory Reduction Countdown</h1> 
+  <div class="subtitle">2026 Goal&ensp;·&ensp;$4.8M Reduction&ensp;·&ensp;$16.50M → $11.70M</div> 
+  <div class="live-clock" id="liveClock"></div> 
+</div> 
+ 
+<div class="container"> 
+ 
+  <div class="cards"> 
+    <div class="card"> 
+      <div class="card-label">Starting Inventory</div> 
+      <div class="card-value dark" id="metricStart">$16,500,300</div> 
+      <div class="card-sub">Jan 1, 2026 Baseline</div> 
+    </div> 
+    <div class="card"> 
+      <div class="card-label">Current Inventory</div> 
+      <div class="card-value blue" id="metricCurrent">--</div> 
+      <div class="card-sub" id="metricCurrentSub">Sum of 4 districts</div> 
+    </div> 
+    <div class="card"> 
+      <div class="card-label">Reduction Achieved</div> 
+      <div class="card-value" id="metricReduction">--</div> 
+      <div class="card-sub" id="metricReductionSub"></div> 
+    </div> 
+    <div class="card"> 
+      <div class="card-label">Remaining to Save</div> 
+      <div class="card-value amber" id="metricRemaining">--</div> 
+      <div class="card-sub" id="metricRemainingSub">of $4,800,000 goal</div> 
+    </div> 
+    <div class="card"> 
+      <div class="card-label">Goal Achieved</div> 
+      <div class="ring-wrapper"> 
+        <svg class="ring" viewBox="0 0 36 36"> 
+          <circle class="ring-bg" cx="18" cy="18" r="14.5"></circle> 
+          <circle class="ring-fill" id="ringFill" cx="18" cy="18" r="14.5" 
+                  stroke="#2563eb" stroke-dasharray="91.1" stroke-dashoffset="91.1" 
+                  transform="rotate(-90 18 18)"></circle> 
+          <text x="18" y="20.5" text-anchor="middle" fill="#1a2332" font-size="8" font-weight="700" id="ringText">0%</text> 
+        </svg> 
+      </div> 
+      <div class="card-sub" id="metricGoalSub"></div> 
+    </div> 
+    <div class="card"> 
+      <div class="card-label">Savings per District</div> 
+      <div class="card-value amber" id="metricPerDistrict">--</div> 
+      <div class="card-sub">per district per month</div> 
+    </div> 
+  </div> 
+ 
+  <div class="countdown-section"> 
+    <div class="countdown-label">Time Remaining in 2026</div> 
+    <div class="countdown-boxes"> 
+      <div class="cd-box"><div class="num" id="cdDays">---</div><div class="lbl">Days</div></div> 
+      <div class="cd-box"><div class="num" id="cdHours">--</div><div class="lbl">Hours</div></div> 
+      <div class="cd-box"><div class="num" id="cdMins">--</div><div class="lbl">Minutes</div></div> 
+      <div class="cd-box"><div class="num" id="cdSecs">--</div><div class="lbl">Seconds</div></div> 
+    </div> 
+    <div class="year-progress"> 
+      <div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div> 
+      <div class="bar-label" id="yearLabel">0% of year elapsed</div> 
+    </div> 
+  </div> 
+ 
+  <div class="pace-section"> 
+    <div class="pace-badge" id="paceBadge">Calculating…</div> 
+    <div class="pace-detail-box" id="paceBox"> 
+      <div class="pace-line" id="paceExpected"></div> 
+      <div class="pace-line" id="paceActual"></div> 
+      <div class="pace-line" id="paceDelta"></div> 
+      <div class="pace-accel" id="paceAccel"></div> 
+    </div> 
+  </div> 
+ 
+  <div class="section-title">Savings by District</div> 
+  <div class="districts" id="districtContainer"></div> 
+ 
+  <div class="section-title">Required Savings Rate (to hit goal)</div> 
+  <div class="rates"> 
+    <div class="rate-card"><div class="rate-label">Per Month</div><div class="rate-value" id="rateMonth">--</div><div class="rate-sub" id="rateMonthSub"></div></div> 
+    <div class="rate-card"><div class="rate-label">Per Week</div><div class="rate-value" id="rateWeek">--</div><div class="rate-sub" id="rateWeekSub"></div></div> 
+    <div class="rate-card"><div class="rate-label">Per Day</div><div class="rate-value" id="rateDay">--</div><div class="rate-sub" id="rateDaySub"></div></div> 
+    <div class="rate-card"><div class="rate-label">Per Hour</div><div class="rate-value" id="rateHour">--</div><div class="rate-sub" id="rateHourSub"></div></div> 
+  </div> 
+ 
+  <div class="history-section"> 
+    <div class="history-header"> 
+      <div class="section-title" style="margin:0;flex:1">Update History</div> 
+      <button class="btn-clear" onclick="clearHistory()">&#128465; Clear All History</button> 
+    </div> 
+    <table class="history"> 
+      <thead><tr><th>Date</th><th>District</th><th>New Value</th><th>Reduction from Baseline</th><th></th></tr></thead> 
+      <tbody id="historyBody"></tbody> 
+    </table> 
+  </div> 
+ 
+</div> 
+<div class="footer">CALFRAC WELL SERVICES&ensp;·&ensp;PARTS & INVENTORY OPERATIONS DASHBOARD&ensp;·&ensp;2026</div> 
+ 
+<script> 
+(function(){ 
+  const START = new Date('2026-01-01T00:00:00'); 
+  const END   = new Date('2026-12-31T23:59:59'); 
+  const TOTAL_BASELINE = 16500300; 
+  const GOAL  = 4800000; 
+  const CIRC  = 2 * Math.PI * 14.5; 
+  const YEAR_MS = END - START; 
+ 
+  const DISTRICTS = [ 
+    { key:'denver', name:'Denver', baseline:260407.52, 
+      trend:[260407.52,111188.69,169126.05,147950.53,141073.65] }, 
+    { key:'smithfield', name:'Smithfield', baseline:2155184.70, 
+      trend:[2155184.70,2076983.72,2251767.83,2202312.54,2261320.01] }, 
+    { key:'williston', name:'Williston', baseline:7511668.38, 
+      trend:[7511668.38,7650935.50,7659903.37,7513243.93,7661871.45] }, 
+    { key:'junction', name:'Grand Junction', baseline:6104008.76, 
+      trend:[6104008.76,6062567.28,6405503.43,5972017.52,5814511.11] } 
+  ]; 
+  const MONTHS = ["Jan 1 '26 (Baseline)","Jan '26","Feb '26","Mar '26","Apr '26"]; 
+ 
+  const $=id=>document.getElementById(id); 
+  const fmt=n=>{const neg=n<0;return(neg?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US')}; 
+  const pad=n=>String(n).padStart(2,'0'); 
+ 
+  function getDistCurrent(key,fb){const v=localStorage.getItem('cf_dist_'+key);return v!==null?parseFloat(v):fb} 
+  function setDistCurrent(key,val){localStorage.setItem('cf_dist_'+key,val)} 
+  function getHistory(){try{return JSON.parse(localStorage.getItem('cf_dist_history'))||[]}catch(e){return[]}} 
+  function setHistory(h){localStorage.setItem('cf_dist_history',JSON.stringify(h))} 
+  function addHistoryEntry(dist,val){const h=getHistory();h.push({date:new Date().toISOString(),district:dist,value:val});setHistory(h)} 
+  function getTotalCurrent(){return DISTRICTS.reduce((s,d)=>s+getDistCurrent(d.key,d.trend[d.trend.length-1]),0)} 
+ 
+  /* Clear history AND revert to original values */ 
+  window.clearHistory=function(){ 
+    if(confirm('Are you sure?\n\nThis will clear all history AND revert district values to their original inputs.\n\nThis cannot be undone.')){ 
+      localStorage.removeItem('cf_dist_history'); 
+      localStorage.removeItem('cf_dist_denver'); 
+      localStorage.removeItem('cf_dist_smithfield'); 
+      localStorage.removeItem('cf_dist_williston'); 
+      localStorage.removeItem('cf_dist_junction'); 
+      buildDistricts(); 
+      renderHistory(); 
+      refresh(); 
+    } 
+  }; 
+ 
+  /* Delete single entry */ 
+  window.deleteEntry=function(idx){ 
+    if(confirm('Delete this entry?')){ 
+      const h=getHistory(); 
+      h.splice(idx,1); 
+      setHistory(h); 
+      renderHistory(); 
+    } 
+  }; 
+ 
+  /* Build district cards */ 
+  function buildDistricts(){ 
+    const wrap=$('districtContainer'); 
+    wrap.innerHTML=''; 
+    DISTRICTS.forEach((d,i)=>{ 
+      const cur=getDistCurrent(d.key,d.trend[d.trend.length-1]); 
+      const red=d.baseline-cur; 
+      const distGoal=(d.baseline/TOTAL_BASELINE)*GOAL; 
+      const pct=distGoal>0?Math.min((red/distGoal)*100,999):0; 
+      const pc=Math.max(0,Math.min(100,pct)); 
+      const barCol=pct>=100?'#059669':pct>=50?'#2563eb':red>0?'#d97706':'#dc2626'; 
+      const pctCol=pct>=100?'green':pct>=50?'blue':red>0?'amber':'red'; 
+ 
+      let trendHTML=''; 
+      for(let m=0;m<MONTHS.length;m++){ 
+        const v=d.trend[m]; 
+        const chg=m>0?(d.trend[m-1]-v):0; 
+        const chgCls=m===0?'':chg>=0?'tbl-green':'tbl-red'; 
+        const chgTxt=m===0?'\u2014':(chg>=0?'+':'')+fmt(chg); 
+        trendHTML+='<div class="trend-row"><span>'+MONTHS[m]+'</span><span class="trend-val">'+fmt(v)+'</span><span class="trend-chg '+chgCls+'">'+chgTxt+'</span></div>'; 
+      } 
+ 
+      const card=document.createElement('div'); 
+      card.className='dist-card'; 
+      card.innerHTML= 
+        '<span class="dist-name">'+d.name+'</span>' 
+        +'<div class="dist-row"><span>Baseline (Jan 1, \'26)</span><span class="val">'+fmt(d.baseline)+'</span></div>' 
+        +'<div class="dist-row"><span>Current</span><span class="val">'+fmt(cur)+'</span></div>' 
+        +'<div class="dist-row"><span>Reduction</span><span class="val '+(red>=0?'green':'red')+'">'+fmt(red)+'</span></div>' 
+        +'<div class="dist-row"><span>District Goal</span><span class="val">'+fmt(distGoal)+'</span></div>' 
+        +'<div class="dist-bar-bg"><div class="dist-bar-fill" style="width:'+pc+'%;background:'+barCol+';"></div></div>' 
+        +'<div class="dist-pct '+pctCol+'">'+pct.toFixed(1)+'% of goal</div>' 
+        +'<div class="dist-trend"><div class="trend-title">Monthly Trend</div>'+trendHTML+'</div>' 
+        +'<div class="dist-input-area">' 
+        +'<div class="dist-input-wrap"><label>Update Current Value</label><input type="text" id="dinp'+i+'" value="'+fmt(cur)+'"></div>' 
+        +'<button class="dist-btn" onclick="saveDist('+i+')">Save</button>' 
+        +'</div>'; 
+      wrap.appendChild(card); 
+ 
+      document.getElementById('dinp'+i).addEventListener('input',function(){ 
+        let raw=this.value.replace(/[^0-9]/g,''); 
+        if(raw)this.value='$'+parseInt(raw).toLocaleString('en-US'); 
+      }); 
+    }); 
+  } 
+ 
+  window.saveDist=function(i){ 
+    const inp=document.getElementById('dinp'+i); 
+    const raw=inp.value.replace(/[^0-9.]/g,''); 
+    if(!raw||isNaN(parseFloat(raw))){alert('Enter a valid dollar amount.');return} 
+    const val=parseFloat(raw); 
+    setDistCurrent(DISTRICTS[i].key,val); 
+    addHistoryEntry(DISTRICTS[i].name,val); 
+    buildDistricts(); 
+    renderHistory(); 
+    refresh(); 
+  }; 
+ 
+  /* History */ 
+  function renderHistory(){ 
+    const hist=getHistory(); 
+    const body=$('historyBody'); 
+    body.innerHTML=''; 
+    for(let i=hist.length-1;i>=0;i--){ 
+      const h=hist[i]; 
+      const d=new Date(h.date); 
+      const ds=d.toLocaleDateString('en-US',{year:'numeric',month:'short',day:'numeric',hour:'numeric',minute:'2-digit'}); 
+      const dist=DISTRICTS.find(x=>x.name===h.district); 
+      const red=dist?(dist.baseline-h.value):0; 
+      const cls=red>=0?'tbl-green':'tbl-red'; 
+      const isLast=(i===hist.length-1); 
+      const delBtn=isLast?'<button class="btn-del" onclick="deleteEntry('+i+')" title="Delete this entry">\u2715</button>':''; 
+      body.innerHTML+='<tr><td>'+ds+'</td><td>'+h.district+'</td><td>'+fmt(h.value)+'</td><td class="'+cls+'">'+fmt(red)+'</td><td>'+delBtn+'</td></tr>'; 
+    } 
+    if(!hist.length){ 
+      body.innerHTML='<tr><td colspan="5" style="color:#94a3b8;text-align:center;padding:14px;">No manual updates yet \u2014 update district values above.</td></tr>'; 
+    } 
+  } 
+ 
+  /* Main refresh */ 
+  function refresh(){ 
+    const now=new Date(); 
+    const current=getTotalCurrent(); 
+    const reduction=TOTAL_BASELINE-current; 
+    const remaining=Math.max(0,GOAL-reduction); 
+    const pctGoal=(reduction/GOAL)*100; 
+ 
+    const msLeft=Math.max(0,END-now); 
+    const ts=Math.floor(msLeft/1000); 
+    $('cdDays').textContent=Math.floor(ts/86400); 
+    $('cdHours').textContent=pad(Math.floor((ts%86400)/3600)); 
+    $('cdMins').textContent=pad(Math.floor((ts%3600)/60)); 
+    $('cdSecs').textContent=pad(ts%60); 
+ 
+    const elapsed=Math.max(0,Math.min(1,(now-START)/YEAR_MS)); 
+    $('yearBar').style.width=(elapsed*100).toFixed(2)+'%'; 
+    $('yearLabel').textContent=(elapsed*100).toFixed(1)+'% of year elapsed'; 
+ 
+    $('metricStart').textContent=fmt(TOTAL_BASELINE); 
+    $('metricCurrent').textContent=fmt(current); 
+    $('metricReduction').textContent=fmt(reduction); 
+    $('metricReduction').className='card-value '+(reduction>=0?'green':'red'); 
+    $('metricReductionSub').textContent=reduction>0?'\u2193 from baseline':reduction<0?'\u2191 inventory increased':'No change'; 
+    $('metricRemaining').textContent=fmt(remaining); 
+    $('metricRemainingSub').textContent=remaining<=0?'\uD83C\uDF89 Goal reached!':'of '+fmt(GOAL)+' goal'; 
+ 
+    const pc=Math.max(0,Math.min(100,pctGoal)); 
+    $('ringFill').style.strokeDashoffset=CIRC-(CIRC*pc/100); 
+    $('ringFill').setAttribute('stroke',pctGoal>=100?'#059669':pctGoal>=50?'#2563eb':'#d97706'); 
+    $('ringText').textContent=pctGoal.toFixed(1)+'%'; 
+    $('metricGoalSub').textContent=fmt(reduction)+' of '+fmt(GOAL); 
+ 
+    /* Enhanced Pace */ 
+    const expRed=GOAL*elapsed; 
+    const diff=reduction-expRed; 
+    const badge=$('paceBadge'); 
+    const box=$('paceBox'); 
+    const elExp=$('paceExpected'); 
+    const elAct=$('paceActual'); 
+    const elDelta=$('paceDelta'); 
+    const elAccel=$('paceAccel'); 
+ 
+    if(now<START){ 
+      badge.className='pace-badge pace-on';badge.textContent='Starting Soon'; 
+      box.className='pace-detail-box pace-detail-on'; 
+      elExp.textContent='';elAct.textContent='Countdown begins January 1, 2026';elDelta.textContent='';elAccel.textContent=''; 
+    } else if(now>END){ 
+      const w=reduction>=GOAL; 
+      badge.className='pace-badge '+(w?'pace-ahead':'pace-behind'); 
+      badge.textContent=w?'\uD83C\uDF89 GOAL ACHIEVED!':'GOAL PERIOD COMPLETE'; 
+      box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind'); 
+      elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction); 
+      elDelta.textContent='';elAccel.textContent=''; 
+    } else if(Math.abs(diff)<GOAL*0.02){ 
+      badge.className='pace-badge pace-on';badge.textContent='\u25CF ON PACE'; 
+      box.className='pace-detail-box pace-detail-on'; 
+      elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>'; 
+      elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>'; 
+      elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb'; 
+      elAccel.textContent=''; 
+    } else if(diff>0){ 
+      badge.className='pace-badge pace-ahead';badge.textContent='\u2705 AHEAD OF PACE'; 
+      box.className='pace-detail-box pace-detail-ahead'; 
+      elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>'; 
+      elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>'; 
+      elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">\u25B2 '+fmt(diff)+' AHEAD</span>'; 
+      const monthsAhead=diff/(GOAL/12); 
+      elAccel.textContent='~'+monthsAhead.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669'; 
+    } else { 
+      badge.className='pace-badge pace-behind';badge.textContent='\uD83D\uDEA8 BEHIND PACE'; 
+      box.className='pace-detail-box pace-detail-behind'; 
+      elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>'; 
+      elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>'; 
+      elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">\u25BC '+fmt(Math.abs(diff))+' BEHIND</span>'; 
+      const monthsBehind=Math.abs(diff)/(GOAL/12); 
+      const accelPct=expRed>0?((Math.abs(diff)/expRed)*100):0; 
+      elAccel.innerHTML='~'+monthsBehind.toFixed(1)+' months behind schedule&ensp;\u00B7&ensp;Must accelerate by '+accelPct.toFixed(0)+'%'; 
+      elAccel.style.color='#dc2626'; 
+    } 
+ 
+    /* Rates */ 
+    const daysLeft=Math.max(0.001,msLeft/86400000); 
+    const hoursLeft=daysLeft*24; 
+    const weeksLeft=daysLeft/7; 
+    const monthsLeft=daysLeft/30.44; 
+    $('rateMonth').textContent=fmt(remaining/monthsLeft); 
+    $('rateMonthSub').textContent=monthsLeft.toFixed(1)+' months left'; 
+    $('rateWeek').textContent=fmt(remaining/weeksLeft); 
+    $('rateWeekSub').textContent=weeksLeft.toFixed(1)+' weeks left'; 
+    $('rateDay').textContent=fmt(remaining/daysLeft); 
+    $('rateDaySub').textContent=Math.ceil(daysLeft)+' days left'; 
+    $('rateHour').textContent=fmt(remaining/hoursLeft); 
+    $('rateHourSub').textContent=Math.round(hoursLeft).toLocaleString()+' hours left'; 
+ 
+    $('metricPerDistrict').textContent=fmt((remaining/monthsLeft)/4); 
+ 
+    $('liveClock').textContent=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'  \u00B7  '+now.toLocaleTimeString('en-US'); 
+  } 
+ 
+  buildDistricts(); 
+  renderHistory(); 
+  refresh(); 
+  setInterval(refresh,1000); 
+})(); 
+</script> 
+</body> 
+</html> 
