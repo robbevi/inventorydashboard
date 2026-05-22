@@ -100,7 +100,7 @@ table.history tr:hover td{background:#f8fafc}
 <div class="header"> 
   <div class="brand">Calfrac Well Services</div> 
   <h1>Inventory Reduction Countdown</h1> 
-  <div class="subtitle">2026 Goal&ensp;&middot;&ensp;$4.8M Reduction&ensp;&middot;&ensp;$16.50M &rarr; $11.70M</div> 
+  <div class="subtitle">2026 Goal &middot; $4.8M Reduction &middot; $16.50M &#8594; $11.70M</div> 
   <div class="live-clock" id="liveClock"></div> 
 </div> 
 <div class="container"> 
@@ -123,7 +123,7 @@ table.history tr:hover td{background:#f8fafc}
     <div class="year-progress"><div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div><div class="bar-label" id="yearLabel">0% of year elapsed</div></div> 
   </div> 
   <div class="pace-section"> 
-    <div class="pace-badge" id="paceBadge">Calculating&hellip;</div> 
+    <div class="pace-badge" id="paceBadge">Calculating...</div> 
     <div class="pace-detail-box" id="paceBox"> 
       <div class="pace-line" id="paceExpected"></div> 
       <div class="pace-line" id="paceActual"></div> 
@@ -151,7 +151,7 @@ table.history tr:hover td{background:#f8fafc}
     </table> 
   </div> 
 </div> 
-<div class="footer">CALFRAC WELL SERVICES&ensp;&middot;&ensp;PARTS & INVENTORY OPERATIONS DASHBOARD&ensp;&middot;&ensp;2026</div> 
+<div class="footer">CALFRAC WELL SERVICES &middot; PARTS & INVENTORY OPERATIONS DASHBOARD &middot; 2026</div> 
 <script> 
 (function(){ 
   var START=new Date('2026-01-01T00:00:00'),END=new Date('2026-12-31T23:59:59'); 
@@ -162,16 +162,41 @@ table.history tr:hover td{background:#f8fafc}
     {key:'williston',name:'Williston',baseline:7511668.38,trend:[7511668.38,7650935.50,7659903.37,7513243.93,7661871.45]}, 
     {key:'junction',name:'Grand Junction',baseline:6104008.76,trend:[6104008.76,6062567.28,6405503.43,5972017.52,5814511.11]} 
   ]; 
-  var MONTHS=["Baseline","Jan '26","Feb '26","Mar '26","Apr '26"]; 
+  var BASE_MONTHS=["Baseline","Jan '26","Feb '26","Mar '26","Apr '26"]; 
+  var MONTH_NAMES=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"]; 
+ 
   var $=function(id){return document.getElementById(id)}; 
   var fmt=function(n){var neg=n<0;return(neg?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US')}; 
   var pad=function(n){return String(n).padStart(2,'0')}; 
+ 
+  function getMonthLabel(){ 
+    var now=new Date(); 
+    var m=now.getMonth(); 
+    var y=String(now.getFullYear()).slice(-2); 
+    return MONTH_NAMES[m]+" '"+y; 
+  } 
+ 
   function getDistCurrent(key,fb){var v=localStorage.getItem('cf_dist_'+key);return v!==null?parseFloat(v):fb} 
   function setDistCurrent(key,val){localStorage.setItem('cf_dist_'+key,val)} 
   function getHistory(){try{return JSON.parse(localStorage.getItem('cf_dist_history'))||[]}catch(e){return[]}} 
   function setHistory(h){localStorage.setItem('cf_dist_history',JSON.stringify(h))} 
   function addHistoryEntry(dist,val){var h=getHistory();h.push({date:new Date().toISOString(),district:dist,value:val});setHistory(h)} 
   function getTotalCurrent(){return DISTRICTS.reduce(function(s,d){return s+getDistCurrent(d.key,d.trend[d.trend.length-1])},0)} 
+ 
+  function getDistTrend(key){try{return JSON.parse(localStorage.getItem('cf_dist_trend_'+key))||[]}catch(e){return[]}} 
+  function setDistTrend(key,arr){localStorage.setItem('cf_dist_trend_'+key,JSON.stringify(arr))} 
+ 
+  function addTrendEntry(key,val){ 
+    var label=getMonthLabel(); 
+    var entries=getDistTrend(key); 
+    var found=false; 
+    for(var i=0;i<entries.length;i++){ 
+      if(entries[i].label===label){entries[i].value=val;found=true;break} 
+    } 
+    if(!found){entries.push({label:label,value:val})} 
+    setDistTrend(key,entries); 
+  } 
+ 
   window.clearHistory=function(){ 
     if(confirm('Are you sure?\n\nThis will clear all history AND revert district values to their original inputs.\n\nThis cannot be undone.')){ 
       localStorage.removeItem('cf_dist_history'); 
@@ -179,12 +204,18 @@ table.history tr:hover td{background:#f8fafc}
       localStorage.removeItem('cf_dist_smithfield'); 
       localStorage.removeItem('cf_dist_williston'); 
       localStorage.removeItem('cf_dist_junction'); 
+      localStorage.removeItem('cf_dist_trend_denver'); 
+      localStorage.removeItem('cf_dist_trend_smithfield'); 
+      localStorage.removeItem('cf_dist_trend_williston'); 
+      localStorage.removeItem('cf_dist_trend_junction'); 
       buildDistricts();renderHistory();refresh(); 
     } 
   }; 
+ 
   window.deleteEntry=function(idx){ 
-    if(confirm('Delete this entry?')){var h=getHistory();h.splice(idx,1);setHistory(h);renderHistory();} 
+    if(confirm('Delete this entry?')){var h=getHistory();h.splice(idx,1);setHistory(h);renderHistory()} 
   }; 
+ 
   function buildDistricts(){ 
     var wrap=$('districtContainer');wrap.innerHTML=''; 
     DISTRICTS.forEach(function(d,i){ 
@@ -195,20 +226,29 @@ table.history tr:hover td{background:#f8fafc}
       var pc=Math.max(0,Math.min(100,pct)); 
       var barCol=pct>=100?'#059669':pct>=50?'#2563eb':red>0?'#d97706':'#dc2626'; 
       var pctCol=pct>=100?'green':pct>=50?'blue':red>0?'amber':'red'; 
-      var trendHTML='<div class="trend-hdr"><span>Month</span><span class="th-val">Value</span><span class="th-chg">MoM Savings</span></div>'; 
-      for(var m=0;m<MONTHS.length;m++){ 
-        var v=d.trend[m]; 
-        var chg=m>0?(d.trend[m-1]-v):0; 
+ 
+      // Build full trend: base + stored 
+      var allLabels=BASE_MONTHS.slice(); 
+      var allValues=d.trend.slice(); 
+      var extra=getDistTrend(d.key); 
+      for(var e=0;e<extra.length;e++){allLabels.push(extra[e].label);allValues.push(extra[e].value)} 
+ 
+      var trendHTML='<div class="trend-hdr"><span>Month</span><span class="th-val">Value</span><span class="th-chg">MoM Change</span></div>'; 
+      for(var m=0;m<allLabels.length;m++){ 
+        var v=allValues[m]; 
+        var chg=m>0?(allValues[m-1]-v):0; 
         var chgCls=m===0?'':chg>=0?'tbl-green':'tbl-red'; 
-        var chgTxt=m===0?'\u2014':(chg>=0?'+':'')+fmt(chg); 
-        trendHTML+='<div class="trend-row"><span>'+MONTHS[m]+'</span><span class="trend-val">'+fmt(v)+'</span><span class="trend-chg '+chgCls+'">'+chgTxt+'</span></div>'; 
+        var chgTxt=m===0?'&#8212;':(chg>=0?'+':'')+fmt(chg); 
+        trendHTML+='<div class="trend-row"><span>'+allLabels[m]+'</span><span class="trend-val">'+fmt(v)+'</span><span class="trend-chg '+chgCls+'">'+chgTxt+'</span></div>'; 
       } 
-      var totalRed=d.baseline-d.trend[d.trend.length-1]; 
+      var lastVal=allValues[allValues.length-1]; 
+      var totalRed=d.baseline-lastVal; 
       var totCls=totalRed>=0?'tbl-green':'tbl-red'; 
-      trendHTML+='<div class="trend-total"><span>vs Baseline</span><span class="trend-val">'+fmt(d.trend[d.trend.length-1])+'</span><span class="trend-chg '+totCls+'">'+(totalRed>=0?'+':'')+fmt(totalRed)+'</span></div>'; 
+      trendHTML+='<div class="trend-total"><span>vs Baseline</span><span class="trend-val">'+fmt(lastVal)+'</span><span class="trend-chg '+totCls+'">'+(totalRed>=0?'+':'')+fmt(totalRed)+'</span></div>'; 
+ 
       var card=document.createElement('div');card.className='dist-card'; 
       card.innerHTML='<span class="dist-name">'+d.name+'</span>' 
-        +'<div class="dist-row"><span>Baseline (Jan 1, \'26)</span><span class="val">'+fmt(d.baseline)+'</span></div>' 
+        +'<div class="dist-row"><span>Baseline (Jan 1, '26)</span><span class="val">'+fmt(d.baseline)+'</span></div>' 
         +'<div class="dist-row"><span>Current</span><span class="val">'+fmt(cur)+'</span></div>' 
         +'<div class="dist-row"><span>Reduction</span><span class="val '+(red>=0?'green':'red')+'">'+fmt(red)+'</span></div>' 
         +'<div class="dist-row"><span>District Goal</span><span class="val">'+fmt(distGoal)+'</span></div>' 
@@ -221,12 +261,17 @@ table.history tr:hover td{background:#f8fafc}
       document.getElementById('dinp'+i).addEventListener('input',function(){var raw=this.value.replace(/[^0-9]/g,'');if(raw)this.value='$'+parseInt(raw).toLocaleString('en-US');}); 
     }); 
   } 
+ 
   window.saveDist=function(i){ 
     var inp=document.getElementById('dinp'+i);var raw=inp.value.replace(/[^0-9.]/g,''); 
     if(!raw||isNaN(parseFloat(raw))){alert('Enter a valid dollar amount.');return} 
-    var val=parseFloat(raw);setDistCurrent(DISTRICTS[i].key,val);addHistoryEntry(DISTRICTS[i].name,val); 
+    var val=parseFloat(raw); 
+    setDistCurrent(DISTRICTS[i].key,val); 
+    addTrendEntry(DISTRICTS[i].key,val); 
+    addHistoryEntry(DISTRICTS[i].name,val); 
     buildDistricts();renderHistory();refresh(); 
   }; 
+ 
   function renderHistory(){ 
     var hist=getHistory();var body=$('historyBody');body.innerHTML=''; 
     for(var i=hist.length-1;i>=0;i--){ 
@@ -235,11 +280,12 @@ table.history tr:hover td{background:#f8fafc}
       var dist=DISTRICTS.find(function(x){return x.name===h.district}); 
       var red=dist?(dist.baseline-h.value):0;var cls=red>=0?'tbl-green':'tbl-red'; 
       var isLast=(i===hist.length-1); 
-      var delBtn=isLast?'<button class="btn-del" onclick="deleteEntry('+i+')" title="Delete this entry">\u2715</button>':''; 
+      var delBtn=isLast?'<button class="btn-del" onclick="deleteEntry('+i+')" title="Delete this entry">&#10005;</button>':''; 
       body.innerHTML+='<tr><td>'+ds+'</td><td>'+h.district+'</td><td>'+fmt(h.value)+'</td><td class="'+cls+'">'+fmt(red)+'</td><td>'+delBtn+'</td></tr>'; 
     } 
-    if(!hist.length){body.innerHTML='<tr><td colspan="5" style="color:#94a3b8;text-align:center;padding:14px;">No manual updates yet \u2014 update district values above.</td></tr>';} 
+    if(!hist.length){body.innerHTML='<tr><td colspan="5" style="color:#94a3b8;text-align:center;padding:14px;">No manual updates yet &#8212; update district values above.</td></tr>';} 
   } 
+ 
   function refresh(){ 
     var now=new Date();var current=getTotalCurrent(); 
     var reduction=TOTAL_BASELINE-current;var remaining=Math.max(0,GOAL-reduction);var pctGoal=(reduction/GOAL)*100; 
@@ -255,9 +301,9 @@ table.history tr:hover td{background:#f8fafc}
     $('metricCurrent').textContent=fmt(current); 
     $('metricReduction').textContent=fmt(reduction); 
     $('metricReduction').className='card-value '+(reduction>=0?'green':'red'); 
-    $('metricReductionSub').textContent=reduction>0?'\u2193 from baseline':reduction<0?'\u2191 inventory increased':'No change'; 
+    $('metricReductionSub').textContent=reduction>0?'&#8595; from baseline':reduction<0?'&#8593; inventory increased':'No change'; 
     $('metricRemaining').textContent=fmt(remaining); 
-    $('metricRemainingSub').textContent=remaining<=0?'\uD83C\uDF89 Goal reached!':'of '+fmt(GOAL)+' goal'; 
+    $('metricRemainingSub').textContent=remaining<=0?'&#127881; Goal reached!':'of '+fmt(GOAL)+' goal'; 
     var pc=Math.max(0,Math.min(100,pctGoal)); 
     $('ringFill').style.strokeDashoffset=CIRC-(CIRC*pc/100); 
     $('ringFill').setAttribute('stroke',pctGoal>=100?'#059669':pctGoal>=50?'#2563eb':'#d97706'); 
@@ -265,18 +311,18 @@ table.history tr:hover td{background:#f8fafc}
     $('metricGoalSub').textContent=fmt(reduction)+' of '+fmt(GOAL); 
     var expRed=GOAL*elapsed;var diff=reduction-expRed; 
     var badge=$('paceBadge'),box=$('paceBox'),elExp=$('paceExpected'),elAct=$('paceActual'),elDelta=$('paceDelta'),elAccel=$('paceAccel'); 
-    if(now<START){badge.className='pace-badge pace-on';badge.textContent='Starting Soon';box.className='pace-detail-box pace-detail-on';elExp.textContent='';elAct.textContent='Countdown begins January 1, 2026';elDelta.textContent='';elAccel.textContent='';} 
-    else if(now>END){var w=reduction>=GOAL;badge.className='pace-badge '+(w?'pace-ahead':'pace-behind');badge.textContent=w?'\uD83C\uDF89 GOAL ACHIEVED!':'GOAL PERIOD COMPLETE';box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind');elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction);elDelta.textContent='';elAccel.textContent='';} 
-    else if(Math.abs(diff)<GOAL*0.02){badge.className='pace-badge pace-on';badge.textContent='\u25CF ON PACE';box.className='pace-detail-box pace-detail-on';elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>';elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>';elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb';elAccel.textContent='';} 
-    else if(diff>0){badge.className='pace-badge pace-ahead';badge.textContent='\u2705 AHEAD OF PACE';box.className='pace-detail-box pace-detail-ahead';elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">\u25B2 '+fmt(diff)+' AHEAD</span>';var monthsAhead=diff/(GOAL/12);elAccel.textContent='~'+monthsAhead.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669';} 
-    else{badge.className='pace-badge pace-behind';badge.textContent='\uD83D\uDEA8 BEHIND PACE';box.className='pace-detail-box pace-detail-behind';elExp.innerHTML='\uD83D\uDCCA Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='\uD83D\uDCCD Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">\u25BC '+fmt(Math.abs(diff))+' BEHIND</span>';var monthsBehind=Math.abs(diff)/(GOAL/12);var accelPct=expRed>0?((Math.abs(diff)/expRed)*100):0;elAccel.innerHTML='~'+monthsBehind.toFixed(1)+' months behind schedule&ensp;\u00B7&ensp;Must accelerate by '+accelPct.toFixed(0)+'%';elAccel.style.color='#dc2626';} 
+    if(now<START){badge.className='pace-badge pace-on';badge.textContent='Starting Soon';box.className='pace-detail-box pace-detail-on';elExp.textContent='';elAct.textContent='Countdown begins January 1, 2026';elDelta.textContent='';elAccel.textContent=''} 
+    else if(now>END){var w=reduction>=GOAL;badge.className='pace-badge '+(w?'pace-ahead':'pace-behind');badge.textContent=w?'&#127881; GOAL ACHIEVED!':'GOAL PERIOD COMPLETE';box.className='pace-detail-box '+(w?'pace-detail-ahead':'pace-detail-behind');elExp.textContent='Goal: '+fmt(GOAL);elAct.textContent='Final Reduction: '+fmt(reduction);elDelta.textContent='';elAccel.textContent=''} 
+    else if(Math.abs(diff)<GOAL*0.02){badge.className='pace-badge pace-on';badge.textContent='&#9679; ON PACE';box.className='pace-detail-box pace-detail-on';elExp.innerHTML='&#128202; Expected by now: <strong style="color:#2563eb">'+fmt(expRed)+'</strong>';elAct.innerHTML='&#128205; Actual reduction: <strong style="color:#2563eb">'+fmt(reduction)+'</strong>';elDelta.textContent='Tracking within 2% of target';elDelta.style.color='#2563eb';elAccel.textContent=''} 
+    else if(diff>0){badge.className='pace-badge pace-ahead';badge.textContent='&#9989; AHEAD OF PACE';box.className='pace-detail-box pace-detail-ahead';elExp.innerHTML='&#128202; Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='&#128205; Actual reduction: <strong style="color:#059669">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#059669;font-size:16px;font-weight:800">&#9650; '+fmt(diff)+' AHEAD</span>';var monthsAhead=diff/(GOAL/12);elAccel.textContent='~'+monthsAhead.toFixed(1)+' months ahead of schedule';elAccel.style.color='#059669'} 
+    else{badge.className='pace-badge pace-behind';badge.textContent='&#128680; BEHIND PACE';box.className='pace-detail-box pace-detail-behind';elExp.innerHTML='&#128202; Expected by now: <strong style="color:#6b7a8d">'+fmt(expRed)+'</strong>';elAct.innerHTML='&#128205; Actual reduction: <strong style="color:#dc2626">'+fmt(reduction)+'</strong>';elDelta.innerHTML='<span style="color:#dc2626;font-size:16px;font-weight:800">&#9660; '+fmt(Math.abs(diff))+' BEHIND</span>';var monthsBehind=Math.abs(diff)/(GOAL/12);var accelPct=expRed>0?((Math.abs(diff)/expRed)*100):0;elAccel.innerHTML='~'+monthsBehind.toFixed(1)+' months behind schedule &middot; Must accelerate by '+accelPct.toFixed(0)+'%';elAccel.style.color='#dc2626'} 
     var daysLeft=Math.max(0.001,msLeft/86400000);var hoursLeft=daysLeft*24;var weeksLeft=daysLeft/7;var monthsLeft=daysLeft/30.44; 
     $('rateMonth').textContent=fmt(remaining/monthsLeft);$('rateMonthSub').textContent=monthsLeft.toFixed(1)+' months left'; 
     $('rateWeek').textContent=fmt(remaining/weeksLeft);$('rateWeekSub').textContent=weeksLeft.toFixed(1)+' weeks left'; 
     $('rateDay').textContent=fmt(remaining/daysLeft);$('rateDaySub').textContent=Math.ceil(daysLeft)+' days left'; 
     $('rateHour').textContent=fmt(remaining/hoursLeft);$('rateHourSub').textContent=Math.round(hoursLeft).toLocaleString()+' hours left'; 
     $('metricPerDistrict').textContent=fmt((remaining/monthsLeft)/4); 
-    $('liveClock').textContent=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'  \u00B7  '+now.toLocaleTimeString('en-US'); 
+    $('liveClock').textContent=now.toLocaleDateString('en-US',{weekday:'long',year:'numeric',month:'long',day:'numeric'})+'  &middot;  '+now.toLocaleTimeString('en-US'); 
   } 
   buildDistricts();renderHistory();refresh();setInterval(refresh,1000); 
 })(); 
