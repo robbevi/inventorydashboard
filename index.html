@@ -96,10 +96,10 @@ table.history tr:hover td{background:#f8fafc}
 </head>
 <body>
 <div class="header">
-  o.png" alt="Calfrac" style="height:50px;margin:6px auto;display:block" onerror="this.style.display='none'">
+  <img src="logo.png" alt="Calfrac" style="height:50px;margin:6px auto;display:block" onerror="this.style.display='none'">
   <div class="brand">Calfrac Well Services</div>
   <h1>Inventory Reduction Countdown</h1>
-  <div class="subtitle">2026 Goal &middot; $4.8M Reduction &middot; $15.90M &#8594; $11.10M &middot; Denver &middot; Grand Junction &middot; Smithfield &middot; Williston</div>
+  <div class="subtitle">2026 Goal &middot; $4.8M Reduction &middot; $16.50M &#8594; $11.70M &middot; Denver &middot; Grand Junction &middot; Smithfield &middot; Williston</div>
 </div>
 <div class="container">
   <div class="countdown-section">
@@ -113,7 +113,7 @@ table.history tr:hover td{background:#f8fafc}
     <div class="year-progress"><div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div><div class="bar-label" id="yearLabel">0% of year elapsed</div></div>
   </div>
   <div class="cards">
-    <div class="card"><div class="card-label">Starting Inventory</div><div class="card-value dark" id="metricStart">$15,901,675</div><div class="card-sub">Jan 1, 2026 Baseline</div></div>
+    <div class="card"><div class="card-label">Starting Inventory</div><div class="card-value dark" id="metricStart">$16,500,300</div><div class="card-sub">Jan 1, 2026 Baseline</div></div>
     <div class="card"><div class="card-label">Current Inventory</div><div class="card-value blue" id="metricCurrent">--</div><div class="card-sub">Denver &middot; Grand Junction &middot; Smithfield &middot; Williston</div></div>
     <div class="card"><div class="card-label">Reduction Achieved</div><div class="card-value" id="metricReduction">--</div><div class="card-sub" id="metricReductionSub"></div></div>
     <div class="card"><div class="card-label">Remaining to Save</div><div class="card-value amber" id="metricRemaining">--</div><div class="card-sub" id="metricRemainingSub">of $4,800,000 goal</div></div>
@@ -153,7 +153,7 @@ table.history tr:hover td{background:#f8fafc}
 <script>
 (function(){
 var START=new Date('2026-01-01T00:00:00'),END=new Date('2026-12-31T23:59:59');
-var TOTAL_BASELINE=15901675.19,GOAL=4800000,OTHER_CURRENT=0;
+var TOTAL_BASELINE=16500300,GOAL=4800000,OTHER_CURRENT=0;
 var CIRC=2*Math.PI*14.5,YEAR_MS=END-START;
 var DISTRICTS=[
 {key:'denver',name:'Denver',baseline:111188.69,trend:[111188.69,169126.05,147950.53,141073.65,187246.90,294702.67]},
