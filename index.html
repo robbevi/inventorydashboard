@@ -7,11 +7,19 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f7fa;color:#1a2332;min-height:100vh;overflow-x:hidden}
-.header{background:#fff;text-align:center;padding:18px 20px 12px;border-bottom:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.04)}
-.header .brand{font-size:14px;letter-spacing:3px;color:#059669;font-weight:700;margin-bottom:3px}
-.header h1{font-size:clamp(20px,3vw,30px);font-weight:700;color:#1a2332}
-.header .subtitle{font-size:clamp(12px,1.5vw,15px);color:#6b7a8d;margin-top:2px}
+.header{background:#fff;border-bottom:2px solid #e5e7eb;box-shadow:0 1px 4px rgba(0,0,0,.04);padding:10px 20px}
+.header-inner{max-width:1360px;margin:0 auto;display:flex;align-items:center;gap:14px;flex-wrap:wrap}
+.header-logo{height:40px;width:auto;flex-shrink:0}
+.header-text{display:flex;flex-direction:column;line-height:1.25}
+.header-text h1{font-size:clamp(16px,2.2vw,22px);font-weight:700;color:#1a2332;margin:0}
+.header-text .subtitle{font-size:11px;color:#6b7a8d;margin-top:1px}
+.header-updated{margin-left:auto;text-align:right}
+.header-updated .lu-label{font-size:9px;text-transform:uppercase;letter-spacing:1px;color:#94a3b8;font-weight:700}
+.header-updated .lu-value{font-size:13px;font-weight:700;color:#1a2332}
 .container{max-width:1360px;margin:0 auto;padding:14px 20px 30px}
+.top-row{display:flex;gap:20px;align-items:stretch;flex-wrap:wrap;margin-top:6px}
+.top-row .countdown-col{flex:1 1 420px;display:flex;flex-direction:column;justify-content:center}
+.top-row .pace-col{flex:1 1 420px;display:flex;flex-direction:column;justify-content:center}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(185px,1fr));gap:12px;margin-top:12px}
 .card{background:#fff;border:1px solid #e5e7eb;border-radius:12px;padding:16px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04);transition:transform .15s,box-shadow .15s}
 .card:hover{transform:translateY(-2px);box-shadow:0 4px 12px rgba(0,0,0,.08)}
@@ -23,17 +31,17 @@ body{font-family:'Segoe UI',Tahoma,Geneva,Verdana,sans-serif;background:#f5f7fa;
 svg.ring{width:70px;height:70px}
 .ring-bg{fill:none;stroke:#e5e7eb;stroke-width:6}
 .ring-fill{fill:none;stroke-width:6;stroke-linecap:round;transition:stroke-dashoffset .8s ease,stroke .4s}
-.countdown-section{text-align:center;padding:16px 0 8px}
+.countdown-section{text-align:center;padding:8px 0}
 .countdown-label{font-size:11px;text-transform:uppercase;letter-spacing:3px;color:#6b7a8d;font-weight:600;margin-bottom:8px}
 .countdown-boxes{display:flex;justify-content:center;gap:10px;flex-wrap:wrap}
 .cd-box{background:#fff;border:1px solid #e5e7eb;border-radius:10px;padding:10px 18px;min-width:88px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
 .cd-box .num{font-size:clamp(26px,4vw,42px);font-weight:700;color:#1a2332;font-variant-numeric:tabular-nums;line-height:1.1}
 .cd-box .lbl{font-size:10px;text-transform:uppercase;letter-spacing:2px;color:#94a3b8;margin-top:2px;font-weight:600}
-.year-progress{margin:12px auto 0;max-width:640px}
+.year-progress{margin:12px auto 0;max-width:640px;width:100%}
 .year-progress .bar-bg{height:7px;background:#e5e7eb;border-radius:4px;overflow:hidden}
 .year-progress .bar-fill{height:100%;background:linear-gradient(90deg,#2563eb,#059669);border-radius:4px;transition:width 1s ease}
 .year-progress .bar-label{font-size:11px;color:#94a3b8;margin-top:3px;text-align:center}
-.pace-section{text-align:center;margin:18px 0 10px}
+.pace-section{text-align:center;margin:0}
 .pace-badge{display:inline-block;padding:12px 40px;border-radius:30px;font-size:18px;font-weight:800;letter-spacing:1px;text-transform:uppercase;color:#fff}
 .pace-detail-box{max-width:600px;margin:10px auto 0;padding:14px 20px;border-radius:12px;text-align:center}
 .pace-line{font-size:14px;font-weight:600;margin:3px 0}
@@ -96,21 +104,43 @@ table.history tr:hover td{background:#f8fafc}
 </head>
 <body>
 <div class="header">
-  <img src="logo.png" alt="Calfrac" style="height:50px;margin:6px auto;display:block" onerror="this.style.display='none'">
-  <div class="brand">Calfrac Well Services</div>
-  <h1>Inventory Reduction Countdown</h1>
-  <div class="subtitle">2026 Goal &middot; $4.8M Reduction &middot; $16.50M &#8594; $11.70M &middot; Denver &middot; Grand Junction &middot; Smithfield &middot; Williston</div>
+  <div class="header-inner">
+    <img src="logo.png" class="header-logo" alt="Calfrac" onerror="this.style.display='none'">
+    <div class="header-text">
+      <h1>Inventory Reduction Countdown</h1>
+      <span class="subtitle">2026 Goal &middot; $4.8M Reduction &middot; $16.50M &#8594; $11.70M &middot; Denver &middot; Grand Junction &middot; Smithfield &middot; Williston</span>
+    </div>
+    <div class="header-updated">
+      <div class="lu-label">Last Updated</div>
+      <div class="lu-value">July 13th, 2026</div>
+    </div>
+  </div>
 </div>
 <div class="container">
-  <div class="countdown-section">
-    <div class="countdown-label">Time Remaining in 2026</div>
-    <div class="countdown-boxes">
-      <div class="cd-box"><div class="num" id="cdDays">---</div><div class="lbl">Days</div></div>
-      <div class="cd-box"><div class="num" id="cdHours">--</div><div class="lbl">Hours</div></div>
-      <div class="cd-box"><div class="num" id="cdMins">--</div><div class="lbl">Minutes</div></div>
-      <div class="cd-box"><div class="num" id="cdSecs">--</div><div class="lbl">Seconds</div></div>
+  <div class="top-row">
+    <div class="countdown-col">
+      <div class="countdown-section">
+        <div class="countdown-label">Time Remaining in 2026</div>
+        <div class="countdown-boxes">
+          <div class="cd-box"><div class="num" id="cdDays">---</div><div class="lbl">Days</div></div>
+          <div class="cd-box"><div class="num" id="cdHours">--</div><div class="lbl">Hours</div></div>
+          <div class="cd-box"><div class="num" id="cdMins">--</div><div class="lbl">Minutes</div></div>
+          <div class="cd-box"><div class="num" id="cdSecs">--</div><div class="lbl">Seconds</div></div>
+        </div>
+        <div class="year-progress"><div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div><div class="bar-label" id="yearLabel">0% of year elapsed</div></div>
+      </div>
     </div>
-    <div class="year-progress"><div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div><div class="bar-label" id="yearLabel">0% of year elapsed</div></div>
+    <div class="pace-col">
+      <div class="pace-section">
+        <div class="pace-badge" id="paceBadge">Calculating...</div>
+        <div class="pace-detail-box" id="paceBox">
+          <div class="pace-line" id="paceExpected"></div>
+          <div class="pace-line" id="paceActual"></div>
+          <div class="pace-line" id="paceDelta"></div>
+          <div class="pace-accel" id="paceAccel"></div>
+        </div>
+      </div>
+    </div>
   </div>
   <div class="cards">
     <div class="card"><div class="card-label">Starting Inventory</div><div class="card-value dark" id="metricStart">$16,500,300</div><div class="card-sub">Jan 1, 2026 Baseline</div></div>
@@ -119,15 +149,6 @@ table.history tr:hover td{background:#f8fafc}
     <div class="card"><div class="card-label">Remaining to Save</div><div class="card-value amber" id="metricRemaining">--</div><div class="card-sub" id="metricRemainingSub">of $4,800,000 goal</div></div>
     <div class="card"><div class="card-label">Goal Achieved</div><div class="ring-wrapper"><svg class="ring" viewBox="0 0 36 36"><circle class="ring-bg" cx="18" cy="18" r="14.5"></circle><circle class="ring-fill" id="ringFill" cx="18" cy="18" r="14.5" stroke="#2563eb" stroke-dasharray="91.1" stroke-dashoffset="91.1" transform="rotate(-90 18 18)"></circle><text x="18" y="20.5" text-anchor="middle" fill="#1a2332" font-size="8" font-weight="700" id="ringText">0%</text></svg></div><div class="card-sub" id="metricGoalSub"></div></div>
     <div class="card"><div class="card-label">Savings per District</div><div class="card-value amber" id="metricPerDistrict">--</div><div class="card-sub">per district per month</div></div>
-  </div>
-  <div class="pace-section">
-    <div class="pace-badge" id="paceBadge">Calculating...</div>
-    <div class="pace-detail-box" id="paceBox">
-      <div class="pace-line" id="paceExpected"></div>
-      <div class="pace-line" id="paceActual"></div>
-      <div class="pace-line" id="paceDelta"></div>
-      <div class="pace-accel" id="paceAccel"></div>
-    </div>
   </div>
   <div class="section-title">Savings by District</div>
   <div class="districts" id="districtContainer"></div>
