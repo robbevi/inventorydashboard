@@ -96,10 +96,10 @@ table.history tr:hover td{background:#f8fafc}
 </head>
 <body>
 <div class="header">
-  <img src="logo.png" alt="Calfrac" style="height:50px;margin:6px auto;display:block" onerror="this.style.display='none'">
+  o.png" alt="Calfrac" style="height:50px;margin:6px auto;display:block" onerror="this.style.display='none'">
   <div class="brand">Calfrac Well Services</div>
   <h1>Inventory Reduction Countdown</h1>
-  <div class="subtitle">2026 Goal &middot; $4.8M Reduction &middot; $16.50M &#8594; $11.70M</div>
+  <div class="subtitle">2026 Goal &middot; $4.8M Reduction &middot; $15.90M &#8594; $11.10M &middot; Denver &middot; Grand Junction &middot; Smithfield &middot; Williston</div>
 </div>
 <div class="container">
   <div class="countdown-section">
@@ -113,8 +113,8 @@ table.history tr:hover td{background:#f8fafc}
     <div class="year-progress"><div class="bar-bg"><div class="bar-fill" id="yearBar" style="width:0%"></div></div><div class="bar-label" id="yearLabel">0% of year elapsed</div></div>
   </div>
   <div class="cards">
-    <div class="card"><div class="card-label">Starting Inventory</div><div class="card-value dark" id="metricStart">$16,500,300</div><div class="card-sub">Jan 1, 2026 Baseline</div></div>
-    <div class="card"><div class="card-label">Current Inventory</div><div class="card-value blue" id="metricCurrent">--</div><div class="card-sub">All 7 districts</div></div>
+    <div class="card"><div class="card-label">Starting Inventory</div><div class="card-value dark" id="metricStart">$15,901,675</div><div class="card-sub">Jan 1, 2026 Baseline</div></div>
+    <div class="card"><div class="card-label">Current Inventory</div><div class="card-value blue" id="metricCurrent">--</div><div class="card-sub">Denver &middot; Grand Junction &middot; Smithfield &middot; Williston</div></div>
     <div class="card"><div class="card-label">Reduction Achieved</div><div class="card-value" id="metricReduction">--</div><div class="card-sub" id="metricReductionSub"></div></div>
     <div class="card"><div class="card-label">Remaining to Save</div><div class="card-value amber" id="metricRemaining">--</div><div class="card-sub" id="metricRemainingSub">of $4,800,000 goal</div></div>
     <div class="card"><div class="card-label">Goal Achieved</div><div class="ring-wrapper"><svg class="ring" viewBox="0 0 36 36"><circle class="ring-bg" cx="18" cy="18" r="14.5"></circle><circle class="ring-fill" id="ringFill" cx="18" cy="18" r="14.5" stroke="#2563eb" stroke-dasharray="91.1" stroke-dashoffset="91.1" transform="rotate(-90 18 18)"></circle><text x="18" y="20.5" text-anchor="middle" fill="#1a2332" font-size="8" font-weight="700" id="ringText">0%</text></svg></div><div class="card-sub" id="metricGoalSub"></div></div>
@@ -149,19 +149,19 @@ table.history tr:hover td{background:#f8fafc}
     </table>
   </div>
 </div>
-<div class="footer">CALFRAC WELL SERVICES &middot; PARTS & INVENTORY OPERATIONS DASHBOARD &middot; 2026</div>
+<div class="footer">CALFRAC WELL SERVICES &middot; PARTS &amp; INVENTORY OPERATIONS DASHBOARD &middot; 2026</div>
 <script>
 (function(){
 var START=new Date('2026-01-01T00:00:00'),END=new Date('2026-12-31T23:59:59');
-var TOTAL_BASELINE=16500300,GOAL=4800000,OTHER_CURRENT=263288.78;
+var TOTAL_BASELINE=15901675.19,GOAL=4800000,OTHER_CURRENT=0;
 var CIRC=2*Math.PI*14.5,YEAR_MS=END-START;
 var DISTRICTS=[
-{key:'denver',name:'Denver',baseline:260407.52,trend:[260407.52,111188.69,169126.05,147950.53,141073.65,187246]},
-{key:'smithfield',name:'Smithfield',baseline:2155184.70,trend:[2155184.70,2076983.72,2251767.83,2202312.54,2261320.01,2189652]},
-{key:'williston',name:'Williston',baseline:7511668.38,trend:[7511668.38,7650935.50,7659903.37,7513243.93,7661871.45,7531016]},
-{key:'junction',name:'Grand Junction',baseline:6104008.76,trend:[6104008.76,6062567.28,6405503.43,5972017.52,5814511.11,5649076]}
+{key:'denver',name:'Denver',baseline:111188.69,trend:[111188.69,169126.05,147950.53,141073.65,187246.90,294702.67]},
+{key:'smithfield',name:'Smithfield',baseline:2076983.72,trend:[2076983.72,2251767.83,2202312.54,2261320.01,2189652.51,2083182.70]},
+{key:'williston',name:'Williston',baseline:7650935.50,trend:[7650935.50,7075434.28,7513243.93,7661871.45,7663902.08,7351867.57]},
+{key:'junction',name:'Grand Junction',baseline:6062567.28,trend:[6062567.28,6405503.43,5972017.52,5814511.11,5649076.04,5568643.16]}
 ];
-var BASE_MONTHS=["Baseline","Jan '26","Feb '26","Mar '26","Apr '26","May '26"];
+var BASE_MONTHS=["Jan '26","Feb '26","Mar '26","Apr '26","May '26","Jun '26"];
 var MN=["Jan","Feb","Mar","Apr","May","Jun","Jul","Aug","Sep","Oct","Nov","Dec"];
 var $=function(id){return document.getElementById(id)};
 var fmt=function(n){var neg=n<0;return(neg?'-':'')+'$'+Math.abs(Math.round(n)).toLocaleString('en-US')};
